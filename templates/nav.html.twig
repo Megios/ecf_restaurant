@@ -1,0 +1,29 @@
+{% block navBar %}
+	<style></style>
+	<div class="logo">
+		<h1>Quai Antique</h1>
+	</div>
+	<ul class="navMain">
+		<a href="#" {% if app.request.attributes.get('_route') == "app_home_page" %} class="active" {% endif %}>
+			<Li>Accueil</Li>
+		</a>
+		<a href="#">
+			<Li>Cartes</Li>
+		</a>
+		<a href="#">
+			<Li>Menu</Li>
+		</a>
+		<a href="#">
+			<Li>Mon compte</Li>
+		</a>
+		<button>
+			<a href="#">
+				<Li>Reserver</Li>
+			</a>
+		</button>
+		<a href="#">
+			<Li>se deconnecter</Li>
+		</a>
+	</ul>
+
+{% endblock %}
