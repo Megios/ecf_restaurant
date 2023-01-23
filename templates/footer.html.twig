@@ -1,0 +1,96 @@
+{% block footer %}
+
+
+	<style>
+		.footer {
+			background: #B6AC97;
+			display: flex;
+			justify-content: space-around;
+			margin-top: 10px
+		}
+
+		.horaires {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding-top: 15px;
+		}
+		.horaires h4 {
+			margin: 0;
+		}
+
+		.horaires li {
+			list-style: none;
+			color: #906427;
+		}
+		.horaires div {
+			display: flex;
+			justify-content: space-between;
+			width: 100%;
+			margin: 2px 0;
+		}
+		.horaires span {
+			color: #906427;
+		}
+		.horaires ul {
+			margin: 0;
+		}
+		.horaires p {
+			margin: 0;
+		}
+		.horaires div span {
+			margin-right: 25px;
+		}
+		hr {
+			width: 40%;
+			border: none;
+			border-top: 2px solid #906427
+		}
+	</style>
+
+	<div class="footer">
+		<div class="horaires">
+			<span>
+				Nos
+			</span>
+			<h4>
+				horaires d'ouverture
+			</h4>
+			<hr>
+
+			{% for name,jour in semaine %}
+				<div>
+					<p>{{name}}</p>
+					{% if jour['open'] == true  %}
+						<ul>
+							{% if jour['open_midi'] != '' %}
+								<li>
+									{{jour['open_midi']}}
+									-{{jour['close_midi']}}
+								</li>
+							{% endif %}
+
+							{% if jour['open_soir'] != '' %}
+								<li>
+									{{jour['open_soir']}}
+									-{{jour['close_soir']}}
+								</li>
+							{% endif %}
+						</ul>
+					{% else %}
+						<span>
+							fermé
+						</span>
+					{% endif %}
+				</div>
+			{% endfor %}
+		</div>
+
+
+		<div class="liens">
+			<h2>
+				test
+			</h2>
+		</div>
+	</div>
+{% endblock %}
