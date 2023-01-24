@@ -33,26 +33,26 @@
 		.btn_main:active {
 			box-shadow: inset 0 0 2px 1px #392c1e;
 		}
+		.galerieContainer {
+			margin: 0;
+			padding: 20px 10px;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: center;
+		}
 	</style>
 
 
-	<div>
-
-		{# <div {{ react_component('Navigation')}}></div> #}
-
-		This friendly message is coming from:
-		<ul>
-			<li>Your controller at
-				<code>
-					<a href="{{ 'C:/xampp/apps/Ecf_restaurant/src/Controller/HomePageController.php'|file_link(0) }}">src/Controller/HomePageController.php</a>
-				</code>
-			</li>
-			<li>Your template at
-				<code>
-					<a href="{{ 'C:/xampp/apps/Ecf_restaurant/templates/home_page/index.html.twig'|file_link(0) }}">templates/home_page/index.html.twig</a>
-				</code>
-			</li>
-		</ul>
+	<div
+		class="galerieContainer">
+		{# Il est recommandé d'utilisez que des paysages
+				<div {{ react_component('Card', { 'photo': photo } ) }}></div>
+				<div {{ react_component('Card', { 'photo': photo } ) }}></div> #}
+		<div {{ react_component('Card', { 'photo': photop } ) }}></div>
+		<div {{ react_component('Card', { 'photo': photop } ) }}></div>
+		<div {{ react_component('Card', { 'photo': photop } ) }}></div>
+		<div {{ react_component('Card', { 'photo': photop } ) }}></div>
 	</div>
 	<div class="flexx">
 		<button class="btn_main">

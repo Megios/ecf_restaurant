@@ -66,9 +66,23 @@ class HomePageController extends AbstractController
             'Samedi' => $samedi,
             'Dimanche' => $dimanche
         ];
+
+        $photo =[
+            'format' => 'portrait',
+            'source' =>'./image/test.png',
+            'title' => 'Test image'
+        ];
+        $photop = [
+            'format' => 'paysage',
+            'source' =>'./image/testpaysage.jpg',
+            'title' => 'Test image'
+
+        ];
         return $this->render('home_page/index.html.twig', [
             'controller_name' => 'HomePageController',
-            'semaine' => $semaine
+            'semaine' => $semaine,
+            'photo' => $photo,
+            'photop' => $photop
         ]);
     }
 }

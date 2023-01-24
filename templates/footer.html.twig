@@ -13,17 +13,13 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			padding-top: 15px;
-		}
-		.horaires h4 {
-			margin: 0;
 		}
 
 		.horaires li {
 			list-style: none;
 			color: #906427;
 		}
-		.horaires div {
+		.jour {
 			display: flex;
 			justify-content: space-between;
 			width: 100%;
@@ -38,28 +34,58 @@
 		.horaires p {
 			margin: 0;
 		}
-		.horaires div span {
+		.close {
 			margin-right: 25px;
 		}
-		hr {
+		.headFooter hr {
 			width: 40%;
 			border: none;
 			border-top: 2px solid #906427
+		}
+		.headFooter {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding-top: 15px;
+			margin: 0;
+		}
+		.headFooter h4 {
+			margin: 0;
+		}
+		.headFooter > span {
+			margin: 0;
+			color: #906427;
+		}
+		.liens li {
+			list-style: none;
+			padding: 10px;
+		}
+		.liens ul {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding: 0;
+		}
+		.liens p {
+			margin: 40px 0 10px;
+			text-align: center;
+			font-size: 1rem;
 		}
 	</style>
 
 	<div class="footer">
 		<div class="horaires">
-			<span>
-				Nos
-			</span>
-			<h4>
-				horaires d'ouverture
-			</h4>
-			<hr>
-
+			<div class="headFooter">
+				<span>
+					Nos
+				</span>
+				<h4>
+					horaires d'ouverture
+				</h4>
+				<hr>
+			</div>
 			{% for name,jour in semaine %}
-				<div>
+				<div class="jour">
 					<p>{{name}}</p>
 					{% if jour['open'] == true  %}
 						<ul>
@@ -78,7 +104,7 @@
 							{% endif %}
 						</ul>
 					{% else %}
-						<span>
+						<span class="close">
 							fermé
 						</span>
 					{% endif %}
@@ -88,9 +114,25 @@
 
 
 		<div class="liens">
-			<h2>
-				test
-			</h2>
+			<div class="headFooter">
+				<span>
+					Nos
+				</span>
+				<h4>
+					liens utiles
+				</h4>
+				<hr>
+			</div>
+			<ul>
+				<li>Mon compte</li>
+				<li>condition général d'utilisation</li>
+				<li>A propos</li>
+				<li>Contacté nous</li>
+			</ul>
+			<p>
+				<strong>
+					Copyright @Megios</strong>
+			</p>
 		</div>
 	</div>
 {% endblock %}

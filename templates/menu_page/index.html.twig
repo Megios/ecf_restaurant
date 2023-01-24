@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quai Antique
+{% endblock %}
+
+{% block body %}
+	<style>
+		.flexx {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.info {
+			align-self: end;
+			margin: 10px;
+		}
+	</style>
+	<div class='flexx'>
+		<h1>Menu</h1>
+		{% for menu in menus %}
+			<div {{ react_component('Menu', { 'menu': menu } ) }}></div>
+		{% endfor %}
+		<p class='info'>*Tous nos prix sont TTC</p>
+	</div>
+{% endblock %}
+{% use "nav.html.twig" %}
+{% use "footer.html.twig"%}
