@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CartePageController!
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.flexx {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+	</style>
+
+	<div class='flexx'>
+		<h1>
+			Nos Cartes</h1>
+		{% for carte in cartes %}
+			<div {{ react_component('Carte', { 'carte': carte } ) }}></div>
+		{% endfor %}
+	</div>
+{% endblock %}
+{% use "nav.html.twig" %}
+{% use "footer.html.twig"%}

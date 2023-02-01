@@ -47,16 +47,16 @@
 	<div
 		class="galerieContainer">
 		{# Il est recommandé d'utilisez que des paysages
-				<div {{ react_component('Card', { 'photo': photo } ) }}></div>
-				<div {{ react_component('Card', { 'photo': photo } ) }}></div> #}
-		<div {{ react_component('Card', { 'photo': photop } ) }}></div>
-		<div {{ react_component('Card', { 'photo': photop } ) }}></div>
-		<div {{ react_component('Card', { 'photo': photop } ) }}></div>
-		<div {{ react_component('Card', { 'photo': photop } ) }}></div>
+								<div {{ react_component('Card', { 'photo': photo } ) }}></div>
+								<div {{ react_component('Card', { 'photo': photo } ) }}></div> #}
+		<div {{ react_component('Galerie', { 'photo': photop } ) }}></div>
+		<div {{ react_component('Galerie', { 'photo': photop } ) }}></div>
+		<div {{ react_component('Galerie', { 'photo': photop } ) }}></div>
+		<div {{ react_component('Galerie', { 'photo': photop } ) }}></div>
 	</div>
 	<div class="flexx">
 		<button class="btn_main">
-			<a href='#'>Reserver une Table !
+			<a href="{{ path('app_reservation_page') }}">Reserver une Table !
 			</a>
 		</button>
 	</div>

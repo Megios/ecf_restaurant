@@ -60,6 +60,11 @@
 			list-style: none;
 			padding: 10px;
 		}
+		.liens a {
+			text-decoration: none;
+			padding: 10px;
+			color: black;
+		}
 		.liens ul {
 			display: flex;
 			flex-direction: column;
@@ -124,8 +129,13 @@
 				<hr>
 			</div>
 			<ul>
-				<li>Mon compte</li>
-				<li>condition général d'utilisation</li>
+				<li>
+					<a href="{{ path('app_reservation_page') }}">Reserver
+					</a>
+				</li>
+				<li>
+					<a href="{{ path('app_cgu_page') }}">Condition général d'utilisation</a>
+				</li>
 				<li>A propos</li>
 				<li>Contacté nous</li>
 			</ul>

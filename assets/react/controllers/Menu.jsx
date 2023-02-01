@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 const Menu = (props) => {
   const menu = props.menu;
-  console.log(menu);
   let affichePrice = String(menu["price"]);
   affichePrice =
     affichePrice.substring(0, affichePrice.length - 2) +

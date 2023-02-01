@@ -24,6 +24,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "react-icons": "^4.7.1",
         "styled-components": "^5.3.6"
     }
 }

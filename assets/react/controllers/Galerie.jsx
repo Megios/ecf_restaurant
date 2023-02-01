@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Card = (props) => {
+const Galerie = (props) => {
   const photo = props.photo;
   return (
     <>
@@ -68,4 +68,4 @@ const Wrapper = styled.div`
     }
   }
 `;
-export default Card;
+export default Galerie;

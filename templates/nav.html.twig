@@ -61,22 +61,22 @@
 		<a href="{{ path('app_home_page') }}" {% if app.request.attributes.get('_route') == "app_home_page" %} class="active" {% endif %}>
 			<Li>Accueil</Li>
 		</a>
-		<a href="#">
+		<a href="{{ path('app_carte_page') }}" {% if app.request.attributes.get('_route') == "app_carte_page" %} class="active" {% endif %}>
 			<Li>Cartes</Li>
 		</a>
 		<a href="{{ path('app_menu_page') }}" {% if app.request.attributes.get('_route') == "app_menu_page" %} class="active" {% endif %}>
 			<Li>Menu</Li>
 		</a>
-		<a href="#">
-			<Li>Mon compte</Li>
+		<a href="{{ path('app_inscription_page') }}">
+			<Li>S'inscrire</Li>
 		</a>
 		<button>
-			<a href="#">
+			<a href="{{ path('app_reservation_page') }}" {% if app.request.attributes.get('_route') == "app_reservation_page" %} class="active" {% endif %}>
 				<Li>Reserver</Li>
 			</a>
 		</button>
-		<a href="#">
-			<Li>se deconnecter</Li>
+		<a href="{{path('app_login_page')}}" {% if app.request.attributes.get('_route') == "app_login_page" %} class="active" {% endif %}>
+			<Li>Se Connecter</Li>
 		</a>
 	</ul>
 
