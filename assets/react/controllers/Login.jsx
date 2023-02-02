@@ -32,7 +32,7 @@ const Login = () => {
           />
         </fieldset>
         <fieldset>
-          <label htmlFor="mdp"> Email :</label>
+          <label htmlFor="mdp"> Mot de passe :</label>
           <input
             type="password"
             name="mdp"
@@ -60,8 +60,17 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+  }
   fieldset {
     width: 80%;
+    border: none;
+    display: flex;
+    justify-content: center;
   }
   .btn_main {
     background: hsl(35, 57%, 36%, 0.5);
@@ -86,6 +95,7 @@ const Wrapper = styled.div`
     -webkit-appearance: none;
     -moz-appearance: none;
     -ms-appearance: none;
+    margin: 5px;
   }
   input[type="checkbox"] {
     -border-radius: 4px;
@@ -102,9 +112,26 @@ const Wrapper = styled.div`
       color: black;
       font-size: 16px;
       position: relative;
-      top: -8px;
-      left: -3px;
+      top: -3px;
+      left: 3px;
     }
+  }
+  form input {
+    background: #b6ac97b3;
+    border: none;
+    margin: 0 5px;
+
+    width: 40%;
+  }
+  form label {
+    width: 40%;
+    text-align: end;
+    padding: 1px 2px;
+    margin: 0 5px;
+  }
+  label:last-child {
+    text-align: start;
+    width: auto;
   }
 `;
 export default Login;
