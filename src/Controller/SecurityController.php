@@ -5,11 +5,12 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class LoginPageController extends AbstractController
+class SecurityController extends AbstractController
 {
-    #[Route('/login2', name: 'app_login_page')]
-    public function index(): Response
+    #[Route(path: '/login', name: 'app_login')]
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
         $lundi = [
             'open' => true,
@@ -66,9 +67,21 @@ class LoginPageController extends AbstractController
             'Samedi' => $samedi,
             'Dimanche' => $dimanche
         ];
-        return $this->render('login_page/index.html.twig', [
-            'controller_name' => 'LoginPageController',
-            'semaine' => $semaine,
-        ]);
+        if ($this->getUser()) {
+            return $this->redirectToRoute('target_path');
+        }
+
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error, 'semaine' => $semaine]);
+    }
+
+    #[Route(path: '/logout', name: 'app_logout')]
+    public function logout(): void
+    {
+        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 }
