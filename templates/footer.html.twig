@@ -94,17 +94,17 @@
 					<p>{{name}}</p>
 					{% if jour['open'] == true  %}
 						<ul>
-							{% if jour['open_midi'] != '' %}
+							{% if jour['open_midi'] != null %}
 								<li>
-									{{jour['open_midi']}}
-									-{{jour['close_midi']}}
+									{{jour['open_midi']|date('H:i')}}
+									-{{jour['close_midi']|date('H:i')}}
 								</li>
 							{% endif %}
 
-							{% if jour['open_soir'] != '' %}
+							{% if jour['open_soir'] != null %}
 								<li>
-									{{jour['open_soir']}}
-									-{{jour['close_soir']}}
+									{{jour['open_soir']|date('H:i')}}
+									-{{jour['close_soir']|date('H:i')}}
 								</li>
 							{% endif %}
 						</ul>

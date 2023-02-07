@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller;
+
+use App\Entity\HoraireRestaurant;
 use App\Entity\Menu;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,13 +17,19 @@ class MenuPageController extends AbstractController
     {
         $test = $em->getRepository(Menu::class)->findAll();
         $menuTest = [];
-        foreach( $test as $produit){
-            $menu= ['title' => $produit->getNom(),'description' => $produit->getDescription(),
-            'price' => $produit->getPrix()];
-            array_push($menuTest,$menu);
-
+        foreach ($test as $produit) {
+            $menu = [
+                'title' => $produit->getNom(), 'description' => $produit->getDescription(),
+                'price' => $produit->getPrix()
+            ];
+            array_push($menuTest, $menu);
         }
-        var_dump($menuTest);
+        $test2 = $em->getRepository(HoraireRestaurant::class)->findAll();
+        $horaireTest = [];
+        foreach ($test2 as $jourss) {
+            $horaireTest[$jourss->getJour()] = ['open' => $jourss->isOuvert(), 'open_midi' => $jourss->getOpenMidi(), 'close_midi' => $jourss->getCloseMidi(), 'open_soir' => $jourss->getOpenSoir(), 'close_soir' => $jourss->getCloseSoir()];
+        }
+
         $lundi = [
             'open' => true,
             'open_midi' => '12:00',
@@ -101,7 +109,7 @@ class MenuPageController extends AbstractController
         // var_dump($menus);
         return $this->render('menu_page/index.html.twig', [
             'controller_name' => 'MenuPageController',
-            'semaine' => $semaine,
+            'semaine' => $horaireTest,
             'menus' => $menuTest
         ]);
     }
