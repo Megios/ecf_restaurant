@@ -18,12 +18,12 @@ const Reservation = (props) => {
   };
 
   //useStateInit
-  const [emailResa, setEmailResa] = useState("");
-  const [numResa, setNumResa] = useState("");
-  const [nomResa, setNomResa] = useState("");
-  const [allergeneResa, setAllergeneResa] = useState("");
+  const [emailResa, setEmailResa] = useState(props.userMail);
+  const [numResa, setNumResa] = useState(props.userNum);
+  const [nomResa, setNomResa] = useState(props.userNom);
+  const [allergeneResa, setAllergeneResa] = useState(props.userAllergene);
   const [commentaireResa, setCommentaireResa] = useState("");
-  const [couvertsResa, setCouvertsResa] = useState("");
+  const [couvertsResa, setCouvertsResa] = useState(props.userCouvert);
   const [dateResa, setDateResa] = useState("");
   const [heureResa, setHeureResa] = useState("");
   const [jour, setJour] = useState("");
@@ -276,6 +276,7 @@ const Reservation = (props) => {
               type="email"
               name="email"
               onChange={handleEmailInput}
+              defaultValue={props.userMail}
             />
           </fieldset>
 
@@ -283,14 +284,14 @@ const Reservation = (props) => {
             <h3>
               <label htmlFor="number">N° de téléphone :</label>
             </h3>
-            <input id="tel" type="tel" name="tel" onChange={handleNumInput} />
+            <input id="tel" type="tel" name="tel" onChange={handleNumInput} defaultValue={props.userNum} />
           </fieldset>
         </fieldset>
         <fieldset>
           <h4>
             <label htmlFor="name">Nom de la reservation :</label>
           </h4>
-          <input id="name" type="text" name="name" onChange={handleNomInput} />
+          <input id="name" type="text" name="name" onChange={handleNomInput} defaultValue={props.userNom}/>
         </fieldset>
         <fieldset>
           <h4>
@@ -302,6 +303,7 @@ const Reservation = (props) => {
             rows={5}
             cols={50}
             onChange={handleAllergeneInput}
+            defaultValue={props.userAllergene}
           />
         </fieldset>
         <fieldset>
@@ -326,7 +328,7 @@ const Reservation = (props) => {
           <label htmlFor="couverts" className="icons">
             <MdRestaurant />
           </label>
-          <select name="couverts" id="couverts" onChange={handleCouvertSelect}>
+          <select name="couverts" id="couverts" onChange={handleCouvertSelect} defaultValue={props.userCouvert}>
             <option value="">--Combien de couverts--</option>
             <option value="1">1</option>
             <option value="2">2</option>
