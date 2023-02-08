@@ -5,7 +5,7 @@
 
 {% block body %}
 
-	<div {{ react_component('Reservation', { 'date': date } ) }}></div>
+	<div {{ react_component('Reservation', { 'date': date, 'semaine': semaine } ) }}></div>
 
 	{# {{ csrfInput() }}
 																																																																																																							        <input type="hidden" name="action" value="users/save-user">

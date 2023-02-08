@@ -82,15 +82,15 @@
 				<td>
 					Email
 				</td>
-				<td class='emailTab'>ad.messaoudene@gmail.com
+				<td class='emailTab'>{{ info[0].getEmail() }}
 				</td>
 				<td></td>
 			</tr>
 			<tr>
 				<td>
-					Nom des reservation
+					Nom des reservation par default
 				</td>
-				<td></td>
+				<td>{{ info[0].getReservationName() }}</td>
 				<td>
 					<button>
 						Modifier</button>
@@ -100,7 +100,7 @@
 				<td>
 					N° de téléphone
 				</td>
-				<td></td>
+				<td>{{ info[0].getNumeroTel() }}</td>
 				<td>
 					<button>
 						Modifier</button>
@@ -108,9 +108,9 @@
 			</tr>
 			<tr>
 				<td>
-					Nombre de couvert
+					Nombre de couvert par default
 				</td>
-				<td></td>
+				<td>{{ info[0].getCouvertDefault() }}</td>
 				<td>
 					<button>
 						Modifier</button>
@@ -120,7 +120,7 @@
 				<td>
 					Allergènes
 				</td>
-				<td>aaaaaaaaaa aaaaaaaaaaaaaaa aaaaaaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaa</td>
+				<td>{{ info[0].getAllergene() }}</td>
 				<td>
 					<button>Modifier</button>
 				</td>

@@ -24,68 +24,11 @@ class MenuPageController extends AbstractController
             ];
             array_push($menuTest, $menu);
         }
-        $test2 = $em->getRepository(HoraireRestaurant::class)->findAll();
-        $horaireTest = [];
-        foreach ($test2 as $jourss) {
-            $horaireTest[$jourss->getJour()] = ['open' => $jourss->isOuvert(), 'open_midi' => $jourss->getOpenMidi(), 'close_midi' => $jourss->getCloseMidi(), 'open_soir' => $jourss->getOpenSoir(), 'close_soir' => $jourss->getCloseSoir()];
+        $semaine = $em->getRepository(HoraireRestaurant::class)->findAll();
+        $horaireSemaine = [];
+        foreach ($semaine as $jourss) {
+            $horaireSemaine[$jourss->getJour()] = ['open' => $jourss->isOuvert(), 'open_midi' => $jourss->getOpenMidi(), 'close_midi' => $jourss->getCloseMidi(), 'open_soir' => $jourss->getOpenSoir(), 'close_soir' => $jourss->getCloseSoir()];
         }
-
-        $lundi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $mardi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $mercredi = [
-            'open' => false,
-        ];
-        $jeudi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $vendredi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $samedi = [
-            'open' => true,
-            'open_midi' => '',
-            'close_midi' => '',
-            'open_soir' => '17:00',
-            'close_soir' => '23:00'
-        ];
-
-        $dimanche = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '16:00',
-            'open_soir' => '',
-            'close_soir' => ''
-        ];
-        $semaine = [
-            'Lundi' => $lundi,
-            'Mardi' => $mardi,
-            'Mercredi' => $mercredi,
-            'Jeudi' => $jeudi,
-            'Vendredi' => $vendredi,
-            'Samedi' => $samedi,
-            'Dimanche' => $dimanche
-        ];
-
         // $menu1 = [
         //     'title' => 'un menu express',
         //     'description' => 'c\'est un menu avec plein de bonne chose',
@@ -109,7 +52,7 @@ class MenuPageController extends AbstractController
         // var_dump($menus);
         return $this->render('menu_page/index.html.twig', [
             'controller_name' => 'MenuPageController',
-            'semaine' => $horaireTest,
+            'semaine' => $horaireSemaine,
             'menus' => $menuTest
         ]);
     }
