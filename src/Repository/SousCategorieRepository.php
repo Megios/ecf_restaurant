@@ -39,6 +39,17 @@ class SousCategorieRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllTrier():?array
+    {
+        return $this->createQueryBuilder('s')
+            ->join('s.carte','p')
+            ->orderBy('p.ordre', 'ASC')
+            ->addOrderBy('s.ordre', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return SousCategorie[] Returns an array of SousCategorie objects
 //     */

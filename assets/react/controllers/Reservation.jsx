@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { MdRestaurant } from "react-icons/md";
 import { BsCalendar3 } from "react-icons/bs";
 import HeureResa from "./HeureResa";
+import axios from "axios";
 
 const Reservation = (props) => {
   const date = props.date;
@@ -26,9 +27,9 @@ const Reservation = (props) => {
   const [couvertsResa, setCouvertsResa] = useState(props.userCouvert);
   const [dateResa, setDateResa] = useState("");
   const [heureResa, setHeureResa] = useState("");
-  const [jour, setJour] = useState("");
   const [HorairesMidi, setHorairesMidi] = useState();
   const [HorairesSoir, setHorairesSoir] = useState();
+  const [toast, setToast] = useState("");
 
   function limiteHoraire(semaine, jour) {
     let test = {
@@ -233,7 +234,6 @@ const Reservation = (props) => {
     const test = new Date(e.target.value);
     console.log(jours[test.getDay()]);
     setDateResa(test);
-    setJour(test.getDay());
     let futurChoix = limiteHoraire(semaine, jours[test.getDay()]);
     console.log(futurChoix);
     possibleChoix(futurChoix);
@@ -242,17 +242,43 @@ const Reservation = (props) => {
   //handle
   const handleSubmit = (e) => {
     e.preventDefault();
-    let formulaire = {
-      Email: emailResa,
-      Num: numResa,
-      Nom: nomResa,
-      Allergene: allergeneResa,
-      Commentaire: commentaireResa,
-      Couverts: couvertsResa,
-      Dates: dateResa,
-      Heure: heureResa,
-    };
+    let formulaire;
+    if (props.userMail){
+      formulaire = {
+        Email: emailResa,
+        Num: numResa,
+        Nom: nomResa,
+        Allergene: allergeneResa,
+        Commentaire: commentaireResa,
+        Couverts: couvertsResa,
+        Date: dateResa,
+        Heure: heureResa,
+        User: props.userMail,
+      };
+    }
+    else{
+      formulaire = {
+        Email: emailResa,
+        Num: numResa,
+        Nom: nomResa,
+        Allergene: allergeneResa,
+        Commentaire: commentaireResa,
+        Couverts: couvertsResa,
+        Date: dateResa,
+        Heure: heureResa,
+      };
+    }
     console.log(formulaire);
+    axios
+      .post("/addResa", formulaire)
+      .then(function (response) {
+        console.log(response.data);
+        setToast(true);
+      })
+      .catch(function (error) {
+        console.log(error);
+        setToast(false);
+      });
   };
 
   const handleEmailInput = (e) => setEmailResa(e.target.value);
@@ -381,6 +407,11 @@ const Reservation = (props) => {
           Envoyer !
         </button>
       </form>
+      {toast === true ? (
+        <p>l'inscription c'est bien passez</p>
+      ) : toast === "" ? null : (
+        <p>une erreur est survenu</p>
+      )}
     </Wrapper>
   );
 };

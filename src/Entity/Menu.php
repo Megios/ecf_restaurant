@@ -66,6 +66,10 @@ class Menu
 
         return $this;
     }
+    public function affichePrix(): ?string
+    {
+        return substr($this->prix,0,-2) . '€' . substr($this->prix,-2);
+    }
 
     public function getOrdre(): ?int
     {

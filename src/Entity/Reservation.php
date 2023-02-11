@@ -39,7 +39,10 @@ class Reservation
     private ?string $commentaire = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservations')]
-    private ?user $account = null;
+    private ?User $account = null;
+
+    #[ORM\Column(length: 13)]
+    private ?string $NumeroReservation = null;
 
     public function getId(): ?int
     {
@@ -86,6 +89,13 @@ class Reservation
     {
         return $this->date;
     }
+    public function afficheDate(): ?string
+    {
+        
+        $english_months = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+        $french_months = array('Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre');
+        return str_replace($english_months, $french_months,$this->date->format('j M Y'));
+    }
 
     public function setDate(\DateTimeInterface $date): self
     {
@@ -97,6 +107,10 @@ class Reservation
     public function getHeure(): ?\DateTimeInterface
     {
         return $this->heure;
+    }
+    public function afficheHeure(): ?string
+    {
+        return $this->heure->format('H:i');
     }
 
     public function setHeure(\DateTimeInterface $heure): self
@@ -142,14 +156,26 @@ class Reservation
         return $this;
     }
 
-    public function getAccount(): ?user
+    public function getAccount(): ?User
     {
         return $this->account;
     }
 
-    public function setAccount(?user $account): self
+    public function setAccount(?User $account): self
     {
         $this->account = $account;
+
+        return $this;
+    }
+
+    public function getNumeroReservation(): ?string
+    {
+        return $this->NumeroReservation;
+    }
+
+    public function setNumeroReservation(string $NumeroReservation): self
+    {
+        $this->NumeroReservation = $NumeroReservation;
 
         return $this;
     }

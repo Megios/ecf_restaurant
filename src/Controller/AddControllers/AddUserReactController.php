@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\test;
+namespace App\Controller\AddControllers;
 
 use App\Entity\User;
 
@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
-class testuController extends AbstractController
+class AddUserReactController extends AbstractController
 {
     #[Route('/addUser', name: 'addUser')]
     public function index(Request $test, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher)

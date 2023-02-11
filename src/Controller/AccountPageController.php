@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\HoraireRestaurant;
 use App\Entity\User;
+use App\Entity\Reservation;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,10 +24,12 @@ class AccountPageController extends AbstractController
         }
 
         $user = $em->getRepository(User::class)->findby(array('email' => $userD->getUserIdentifier()));
+        $reservations = $em->getRepository(Reservation::class)->findby(array('account' => $user[0]->getId()));
         return $this->render('account_page/index.html.twig', [
             'controller_name' => 'AccountPageController',
             'semaine' => $horaireSemaine,
-            'info' =>$user
+            'info' =>$user,
+            'resas' => $reservations
         ]);
     }
 }

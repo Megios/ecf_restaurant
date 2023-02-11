@@ -26,7 +26,7 @@
 		}
 		.Resas tr td:nth-child(1),
 		.Resas tr th:nth-child(1) {
-			width: 12ch;
+			width: 16ch;
 		}
 		.Resas tr td:nth-child(2),
 		.Resas tr th:nth-child(2) {
@@ -84,7 +84,6 @@
 				</td>
 				<td class='emailTab'>{{ info[0].getEmail() }}
 				</td>
-				<td></td>
 			</tr>
 			<tr>
 				<td>
@@ -138,27 +137,19 @@
 				<th>Commentaires</th>
 				<th>Action</th>
 			</tr>
+			{% for resa in resas %}
 			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td>{{ resa.afficheDate() }}</td>
+				<td>{{ resa.afficheHeure() }}</td>
+				<td>{{ resa.getCouvert() }}</td>
+				<td>{{ resa.getAllergene() }}</td>
+				<td>{{ resa.getCommentaire() }}</td>
 				<td>
 					<button>Annuler</button>
 				</td>
-			</tr>
-			<tr>
-				<td>12 dec 2021</td>
-				<td>11h30</td>
-				<td>12</td>
-				<td>aaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaa
-				</td>
-				<td>aaaaaaaaaa aaaaaaaaaaaaaaa aaaaaaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaa</td>
-				<td>
-					<button>Annuler</button>
-				</td>
-			</tr>
+				
+			{% endfor %}
+			
 		</table>
 		<span>*Possibilité d’annuler une reservation jusqu’à 8h avant l’heure.
 		</span>

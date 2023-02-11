@@ -55,6 +55,10 @@ class Produit
 
         return $this;
     }
+    public function affichePrix(): ?string
+    {
+        return substr($this->prix,0,-2) . '€' . substr($this->prix,-2);
+    }
 
     public function getSousCategorie(): ?SousCategorie
     {

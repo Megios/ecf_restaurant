@@ -38,6 +38,18 @@ class ProduitRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findAllTrier():?array
+    {
+        return $this->createQueryBuilder('s')
+            ->join('s.sousCategorie','cat')
+            ->join('cat.carte','cart')
+            ->orderBy('cart.ordre', 'ASC')
+            ->addOrderBy('cat.ordre', 'ASC')
+            ->addOrderBy('s.ordre','asc')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
 //    /**
 //     * @return Produit[] Returns an array of Produit objects

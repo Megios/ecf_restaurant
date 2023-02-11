@@ -29,27 +29,6 @@ class MenuPageController extends AbstractController
         foreach ($semaine as $jourss) {
             $horaireSemaine[$jourss->getJour()] = ['open' => $jourss->isOuvert(), 'open_midi' => $jourss->getOpenMidi(), 'close_midi' => $jourss->getCloseMidi(), 'open_soir' => $jourss->getOpenSoir(), 'close_soir' => $jourss->getCloseSoir()];
         }
-        // $menu1 = [
-        //     'title' => 'un menu express',
-        //     'description' => 'c\'est un menu avec plein de bonne chose',
-        //     'price' => 2000
-        // ];
-        // $menu2 = [
-        //     'title' => 'un menu midi',
-        //     'description' => 'c\'est un menu avec plein de bonne chose',
-        //     'price' => 2500
-        // ];
-        // $menu3 = [
-        //     'title' => 'un menu complet',
-        //     'description' => 'c\'est un menu avec plein de bonne chose et tu sors le ventre vraiment très très vide ',
-        //     'price' => 3500
-        // ];
-        // $menus = [
-        //     1 => $menu1,
-        //     2 => $menu2,
-        //     3 => $menu3
-        // ];
-        // var_dump($menus);
         return $this->render('menu_page/index.html.twig', [
             'controller_name' => 'MenuPageController',
             'semaine' => $horaireSemaine,
