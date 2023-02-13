@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Entity\Reservation;
-use App\Entity\HoraireRestaurant;
+use Exception;
 use App\Entity\Menu;
+use App\Entity\User;
 use App\Entity\Carte;
 use App\Entity\Produit;
+use App\Entity\Reservation;
 use App\Entity\SousCategorie;
+use App\Entity\HoraireRestaurant;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,10 +24,14 @@ class AdminPageController extends AbstractController
         $semaine = $em->getRepository(HoraireRestaurant::class)->findAll();
         $horaireSemaine = [];
         foreach ($semaine as $jour) {
-            $horaireSemaine[$jour->getJour()] = ['open' => $jour->isOuvert(), 'open_midi' => $jour->getOpenMidi(), 'close_midi' => $jour->getCloseMidi(), 'open_soir' => $jour->getOpenSoir(), 'close_soir' => $jour->getCloseSoir()];
+            $horaireSemaine[$jour->getJour()] = ['open' => $jour->isOuvert(), 'open_midi' => $jour->getOpenMidi(), 'close_midi' => $jour->getCloseMidi(), 'open_soir' => $jour->getOpenSoir(), 'close_soir' => $jour->getCloseSoir(),'id' =>$jour->getId()];
         }
         $user = $em->getRepository(User::class)->findby(array('email' => $userD->getUserIdentifier()));
-        $reservations = $em->getRepository(Reservation::class)->findAll(array());
+        try{
+            $reservations = $em->getRepository(Reservation::class)->findAll(array());
+        }catch(Exception $e ){
+            $reservations=null;
+        }
         $menus = $em->getRepository(Menu::class)->findby(array(),array('ordre' => 'asc'));
         $cartes = $em->getRepository(Carte::class)->findby(array(),array('ordre' => 'asc'));
         // $sousCats= $em->getRepository(SousCategorie::class)->findby(array(),array('nom'=> 'asc'),array('ordre' => 'asc'));

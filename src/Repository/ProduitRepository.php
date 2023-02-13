@@ -45,7 +45,7 @@ class ProduitRepository extends ServiceEntityRepository
             ->join('cat.carte','cart')
             ->orderBy('cart.ordre', 'ASC')
             ->addOrderBy('cat.ordre', 'ASC')
-            ->addOrderBy('s.ordre','asc')
+            ->addOrderBy('s.ordre','ASC')
             ->getQuery()
             ->getResult()
             ;

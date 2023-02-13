@@ -90,7 +90,7 @@ const AddSousCat = (props) => {
           </form>
           {toast === "" ? null : <p>une erreur est survenu</p>}
         </div>
-      ) : <button className="btn_main " onClick={handleOuvre}>Ajouter une Carte</button>}
+      ) : <button className="btn_main " onClick={handleOuvre}>Ajouter une catégorie</button>}
     </Wrapper>
   );
 };
