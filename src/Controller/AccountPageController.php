@@ -29,7 +29,7 @@ class AccountPageController extends AbstractController
         $user = $em->getRepository(User::class)->findby(array('email' => $userD->getUserIdentifier()));
 
         try {
-            $reservations = $em->getRepository(Reservation::class)->findby(array('account' => $user[0]->getId()));
+            $reservations = $em->getRepository(Reservation::class)->findby(array('account' => $user[0]->getId()),array('date'=>'ASC'));
         } catch (Exception $e) {
             $reservations = null;
         }

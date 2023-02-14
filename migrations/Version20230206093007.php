@@ -31,6 +31,7 @@ final class Version20230206093007 extends AbstractMigration
         $this->addSql('ALTER TABLE produit ADD CONSTRAINT FK_29A5EC27365BF48 FOREIGN KEY (sous_categorie_id) REFERENCES sous_categorie (id)');
         $this->addSql('ALTER TABLE reservation ADD CONSTRAINT FK_42C849559B6B5FBA FOREIGN KEY (account_id) REFERENCES `user` (id)');
         $this->addSql('ALTER TABLE sous_categorie ADD CONSTRAINT FK_52743D7BC9C7CEB6 FOREIGN KEY (carte_id) REFERENCES carte (id)');
+        $this->addSql('ALTER TABLE reservation ADD numero_reservation VARCHAR(15) NOT NULL AFTER email');
     }
 
     public function down(Schema $schema): void

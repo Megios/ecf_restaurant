@@ -29,6 +29,8 @@ const Reservation = (props) => {
   const [heureResa, setHeureResa] = useState("");
   const [HorairesMidi, setHorairesMidi] = useState();
   const [HorairesSoir, setHorairesSoir] = useState();
+  const [couvertMidi, setCouvertMidi]=useState("");
+  const [couvertSoir, setCouvertSoir]=useState("");
   const [toast, setToast] = useState("");
 
   function limiteHoraire(semaine, jour) {
@@ -229,7 +231,6 @@ const Reservation = (props) => {
       setHorairesSoir("");
     }
   }
-
   let testhoraire = (e) => {
     const test = new Date(e.target.value);
     console.log(jours[test.getDay()]);
@@ -237,6 +238,15 @@ const Reservation = (props) => {
     let futurChoix = limiteHoraire(semaine, jours[test.getDay()]);
     console.log(futurChoix);
     possibleChoix(futurChoix);
+    axios.get("/getCount",{
+      params:{
+        slug:test,
+      }
+    }).then((res) => {
+        console.log(res);
+        setCouvertMidi(res.data.midi);
+        setCouvertSoir(res.data.soir);
+    }).catch((err) => console.log(err.toString(), 'error'));
   };
 
   //handle
@@ -370,7 +380,6 @@ const Reservation = (props) => {
             type="date"
             id="dateResa"
             name="dateResa"
-            defaultValue={date["now"]}
             min={date["now"]}
             max={date["maxResa"]}
             onChange={(e) => testhoraire(e)}
@@ -378,8 +387,8 @@ const Reservation = (props) => {
         </fieldset>
         <hr />
         <div className="HoHo">
-          {HorairesMidi === "" || HorairesMidi === undefined ? null : (
-            <h5>Midi</h5>
+          {HorairesMidi === "" || HorairesMidi === undefined ? null : (<>
+            <h5>Midi</h5><p>Couverts disponibles : {props.maxCouvert-couvertMidi} </p></>
           )}
           <div className="Ho">
             {HorairesMidi === "" || HorairesMidi === undefined
@@ -388,8 +397,9 @@ const Reservation = (props) => {
                   <HeureResa day={h} setHeureResa={setHeureResa} />
                 ))}
           </div>
-          {HorairesSoir === "" || HorairesSoir === undefined ? null : (
-            <h5>Soir</h5>
+          {HorairesSoir === "" || HorairesSoir === undefined ? null : (<>
+            <h5>Soir</h5><p>Couverts disponibles : {props.maxCouvert-couvertSoir} </p></>
+            
           )}
           <div className="Ho">
             {HorairesSoir === "" || HorairesSoir === undefined

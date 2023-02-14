@@ -5,9 +5,9 @@
 
 {% block body %}
 {% if app.user %}
-	<div {{ react_component('Reservation', { 'date': date, 'semaine': semaine, 'userMail' : app.user.email ,'userCouvert' : app.user.couvertDefault, 'userNum' : app.user.getNumeroTel, 'userAllergene' : app.user.getAllergene ,'userNom' : app.user.getReservationName } ) }}></div>
+	<div {{ react_component('Reservation', { 'date': date, 'semaine': semaine,'maxCouvert': 30, 'userMail' : app.user.email ,'userCouvert' : app.user.couvertDefault, 'userNum' : app.user.getNumeroTel, 'userAllergene' : app.user.getAllergene ,'userNom' : app.user.getReservationName } ) }}></div>
 {% else %}
-		<div {{ react_component('Reservation', { 'date': date, 'semaine': semaine } ) }}></div>
+		<div {{ react_component('Reservation', { 'date': date, 'semaine': semaine, 'maxCouvert': 30} ) }}></div>
 
 {% endif %}
 

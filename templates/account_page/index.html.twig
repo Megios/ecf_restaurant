@@ -70,6 +70,9 @@
 			border-collapse: collapse;
 			padding: 5px;
 		}
+		.accepOverflow{
+			overflow:visible;
+		}
 	</style>
 
 	<div class="example-wrapper">
@@ -144,9 +147,13 @@
 				<td>{{ resa.getCouvert() }}</td>
 				<td>{{ resa.getAllergene() }}</td>
 				<td>{{ resa.getCommentaire() }}</td>
-				<td>
-					<button>Annuler</button>
+				{% if resa.isAnnulable() %}
+					<td class="accepOverflow">
+					<div {{ react_component('RemoveReservation', { 'id' : resa.getUuid()}) }} </div>
 				</td>
+				{% else %}
+					<td>X</td>
+				{% endif %}
 				
 			{% endfor %}
 			

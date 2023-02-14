@@ -28,7 +28,7 @@ class AdminPageController extends AbstractController
         }
         $user = $em->getRepository(User::class)->findby(array('email' => $userD->getUserIdentifier()));
         try{
-            $reservations = $em->getRepository(Reservation::class)->findAll(array());
+            $reservations = $em->getRepository(Reservation::class)->findAll(array(),array('date'=>'ASC'));
         }catch(Exception $e ){
             $reservations=null;
         }

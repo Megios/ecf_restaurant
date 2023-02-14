@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Reservation;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -63,4 +64,17 @@ class ReservationRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function couvertDisponible(DateTimeInterface $DateDebut,DateTimeInterface $DateFin)
+    {
+        $tabs = $this->findAll();
+        $counts=0;
+        foreach ($tabs as $tab) {
+            $timeS=date_timestamp_get($tab->getDatePrecise());
+            if ($timeS>=date_timestamp_get($DateDebut) && $timeS<=date_timestamp_get($DateFin)){
+                
+                $counts += $tab->getCouvert();
+            }
+        }
+        return $counts;
+    }
 }

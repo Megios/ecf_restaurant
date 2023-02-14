@@ -179,4 +179,19 @@ class Reservation
 
         return $this;
     }
+    public function getDatePrecise(): ?\DateTimeInterface
+    {
+        $params=explode(":",$this->afficheHeure());
+        return date_time_set($this->date,intval($params[0]),intval($params[1]));
+    }
+    public function isAnnulable(): bool
+    {
+        //25200 timeStamp => au timeStamp du 1janvier1970 a 8h 
+        if (date_timestamp_get($this->getDatePrecise())-time()>(25200)){
+            return true;
+        }
+        else{
+            return false;
+        } 
+    }
 }
