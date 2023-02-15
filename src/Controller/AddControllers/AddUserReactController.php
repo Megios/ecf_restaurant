@@ -36,6 +36,9 @@ class AddUserReactController extends AbstractController
                 $user->setCouvertDefault(intval($testform['Couverts']));
                 $user->setReservationName($testform['Nom']);
                 $user->setAllergene($testform['Allergene']);
+                if($em->getRepository(User::class)->findAll()===[]){
+                    $user->setRoles(['ROLE_ADMIN']);
+                }
                 $em->persist($user);
                 $em->flush();
                 return new JsonResponse(['Message' => 'L\'inscription s\'est bien dérouler']);

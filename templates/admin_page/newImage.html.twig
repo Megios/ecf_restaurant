@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pannel d'administration
+{% endblock %}
+
+{% block body %}
+{# templates/product/new.html.twig #}
+<h1>Adding a new product</h1>
+
+{{ form_start(form) }}
+  {{ form_row(form.format) }}
+  {{ form_row(form.ordre) }}
+  {{ form_row(form.imageFilename) }}
+  <button type=submit>envoyer </button>
+{{ form_end(form) }}
+</div>{% endblock %}{% use "nav.html.twig" %}{% use "footer.html.twig"%}

@@ -2,74 +2,28 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\HoraireRestaurant;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class InscriptionPageController extends AbstractController
 {
     #[Route('/inscription', name: 'app_inscription_page')]
-    public function index(): Response
+    public function index(EntityManagerInterface $em): Response
     {
-        $lundi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $mardi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $mercredi = [
-            'open' => false,
-        ];
-        $jeudi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $vendredi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $samedi = [
-            'open' => true,
-            'open_midi' => '',
-            'close_midi' => '',
-            'open_soir' => '17:00',
-            'close_soir' => '23:00'
-        ];
+        $semaine = $em->getRepository(HoraireRestaurant::class)->findAll();
 
-        $dimanche = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '16:00',
-            'open_soir' => '',
-            'close_soir' => ''
-        ];
-        $semaine = [
-            'Lundi' => $lundi,
-            'Mardi' => $mardi,
-            'Mercredi' => $mercredi,
-            'Jeudi' => $jeudi,
-            'Vendredi' => $vendredi,
-            'Samedi' => $samedi,
-            'Dimanche' => $dimanche
-        ];
+        $horaireSemaine = [];
+        foreach ($semaine as $jour) {
+            $horaireSemaine[$jour->getJour()] = ['open' => $jour->isOuvert(), 'open_midi' => $jour->getOpenMidi(), 'close_midi' => $jour->getCloseMidi(), 'open_soir' => $jour->getOpenSoir(), 'close_soir' => $jour->getCloseSoir()];
+        }
+
 
         return $this->render('inscription_page/index.html.twig', [
             'controller_name' => 'InscriptionPageController',
-            'semaine' => $semaine,
+            'semaine' => $horaireSemaine,
         ]);
     }
 }

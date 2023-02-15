@@ -32,6 +32,15 @@ final class Version20230206093007 extends AbstractMigration
         $this->addSql('ALTER TABLE reservation ADD CONSTRAINT FK_42C849559B6B5FBA FOREIGN KEY (account_id) REFERENCES `user` (id)');
         $this->addSql('ALTER TABLE sous_categorie ADD CONSTRAINT FK_52743D7BC9C7CEB6 FOREIGN KEY (carte_id) REFERENCES carte (id)');
         $this->addSql('ALTER TABLE reservation ADD numero_reservation VARCHAR(15) NOT NULL AFTER email');
+        $this->addSql('INSERT INTO horaire_restaurant (`id`, `jour`,`ouvert`) VALUES (:id,:jour,:ouvert)',array('id' =>1,'jour'=>'Lundi','ouvert' => false));
+        $this->addSql('INSERT INTO horaire_restaurant (`id`, `jour`,`ouvert`) VALUES (:id,:jour,:ouvert)',array('id' =>2,'jour'=>'Mardi','ouvert' => false));
+        $this->addSql('INSERT INTO horaire_restaurant (`id`, `jour`,`ouvert`) VALUES (:id,:jour,:ouvert)',array('id' =>3,'jour'=>'Mercredi','ouvert' => false));
+        $this->addSql('INSERT INTO horaire_restaurant (`id`, `jour`,`ouvert`) VALUES (:id,:jour,:ouvert)',array('id' =>4,'jour'=>'Jeudi','ouvert' => false));
+        $this->addSql('INSERT INTO horaire_restaurant (`id`, `jour`,`ouvert`) VALUES (:id,:jour,:ouvert)',array('id' =>5,'jour'=>'Vendredi','ouvert' => false));
+        $this->addSql('INSERT INTO horaire_restaurant (`id`, `jour`,`ouvert`) VALUES (:id,:jour,:ouvert)',array('id' =>6,'jour'=>'Samedi','ouvert' => false));
+        $this->addSql('INSERT INTO horaire_restaurant (`id`, `jour`,`ouvert`) VALUES (:id,:jour,:ouvert)',array('id' =>7,'jour'=>'Dimanche','ouvert' => false));
+        $this->addSql('CREATE TABLE galerie (uuid CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', image_filename VARCHAR(255) NOT NULL,ordre SMALLINT NOT NULL, `format` VARCHAR(255) NOT NULL, PRIMARY KEY(uuid)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+
     }
 
     public function down(Schema $schema): void
