@@ -278,17 +278,21 @@ const Reservation = (props) => {
         Heure: heureResa,
       };
     }
-    console.log(formulaire);
-    axios
-      .post("/addResa", formulaire)
-      .then(function (response) {
-        console.log(response.data);
-        setToast(true);
-      })
-      .catch(function (error) {
-        console.log(error);
-        setToast(false);
-      });
+    if(dateResa==='' || heureResa===''){
+      setToast(false);
+    }
+    else{
+      axios
+        .post("/addResa", formulaire)
+        .then(function (response) {
+          console.log(response.data);
+          setToast(true);
+        })
+        .catch(function (error) {
+          console.log(error);
+          setToast(false);
+        });
+    }
   };
 
   const handleEmailInput = (e) => setEmailResa(e.target.value);

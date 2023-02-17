@@ -3,10 +3,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const ModifyMenu = (props) => {
-  const [titre, setTitre] = useState(props.nom);
-  const [description, setDescription] = useState(props.description);
-  const [prix, setPrix] = useState(props.prix);
+  const [titre, setTitre] = useState(props.titre);
   const [ordre, setOrdre] = useState(props.ordre);
+  const [format,setFormat] = useState(props.format);
   const [toast, setToast] = useState("");
   const [add, setAdd] = useState(false);
 
@@ -14,12 +13,8 @@ const ModifyMenu = (props) => {
     setTitre(e.target.value);
     setToast("");
   };
-  const handleDescriptionInput = (e) => {
-    setDescription(e.target.value);
-    setToast("");
-  };
-  const handlePrixInput = (e) => {
-    setPrix(e.target.value);
+  const handleFormatInput = (e) => {
+    setFormat(e.target.value);
     setToast("");
   };
   const handleOrdreInput = (e) => {
@@ -36,25 +31,21 @@ const ModifyMenu = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let formulaire = {
-      Nom: titre,
-      Description: description,
-      Prix: prix,
+      Titre: titre,
+      Format: format,
       Ordre: ordre,
-      Id: props.id,
+      Uuid: props.uuid,
     };
     if (
       ordre <= 0 ||
       titre === "" ||
-      description === "" ||
-      !Number.isInteger(parseInt(prix)) ||
-      prix <= 0
+      format === "" 
     ) {
       setToast(false);
     } else {
       axios
-        .post("/modifyMenu", formulaire)
+        .post("/modifyGalerie", formulaire)
         .then(function (response) {
-          console.log(response.data.Message);
           setAdd(false);
           window.location.reload(false);
         })
@@ -77,16 +68,13 @@ const ModifyMenu = (props) => {
               <thead>
                 <tr>
                   <th>
-                    <label htmlFor="titre">Titre du menu :</label>
+                    <label htmlFor="titre">Titre</label>
                   </th>
                   <th>
-                    <label htmlFor="description">Description :</label>
+                    <label htmlFor="description">Format</label>
                   </th>
                   <th>
-                    <label htmlFor="Prix">Prix en centimes</label>
-                  </th>
-                  <th>
-                    <label htmlFor="odre">Ordre :</label>
+                    <label htmlFor="odre">Ordre</label>
                   </th>
                   <th>Action</th>
                 </tr>
@@ -99,30 +87,16 @@ const ModifyMenu = (props) => {
                       type="text"
                       name="titre"
                       id="titre"
-                      defaultValue={props.nom}
+                      defaultValue={props.titre}
                       required
                       onChange={handleTitreInput}
                     />
                   </td>
                   <td>
-                    <input
-                      type="text"
-                      name="description"
-                      id="description"
-                      defaultValue={props.description}
-                      required
-                      onChange={handleDescriptionInput}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      name="Prix"
-                      id="Prix"
-                      required
-                      defaultValue={props.prix}
-                      onChange={handlePrixInput}
-                    />
+                    <select id="format" name="format" onChange={handleFormatInput} defaultValue={props.format}>
+                      <option value="paysage">paysage</option>
+                      <option value="portrait">portrait</option>
+                    </select>
                   </td>
                   <td>
                     <input

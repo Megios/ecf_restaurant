@@ -16,6 +16,9 @@ class Galerie
     private string $imageFilename;
 
     #[ORM\Column(length: 255)]
+    private string $titre;
+
+    #[ORM\Column(length: 255)]
     private string $format = 'paysage';
 
     #[ORM\Column(type: Types::SMALLINT)]
@@ -29,6 +32,15 @@ class Galerie
     public function getUuid(): ?string
     {
         return $this->uuid;
+    }
+    public function setTitre($titre): self
+    {
+        $this->titre=$titre;
+        return $this;
+    }
+    public function getTitre(): ?string
+    {
+        return $this->titre;
     }
 
     public function getimageFilename(): string

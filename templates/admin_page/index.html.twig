@@ -78,58 +78,7 @@
 
 	<div class="example-wrapper">
 		<p>Bienvenue sur votre gestionnaire de compte administrateur</p>
-		<a href= "{{ path('app_galerie_new')}}">Test image </a>
-		<h1>
-			Info Restaurant
-		</h1>
-		<table>
-			<tr>
-				<th>Jour</th>
-				<th>Ouvert/Fermé</th>
-				<th>debut déjeuner</th>
-				<th>fin déjeuner</th>
-				<th>debut diner</th>
-				<th>fin déjeuner</th>
-				<th colspan='2'>Action</th>
-			</tr>
-			{% for name,jour in semaine %}
-			<tr>
-				<td>{{name}}</td>
-				{% if jour['open'] == true  %}
-					<td>Ouvert</td>
-					{% if jour['open_midi'] != null %}
-								<td>{{jour['open_midi']|date('H:i')}}</td>
-								<td>{{jour['close_midi']|date('H:i')}}</td>
-					{% else %}
-						<td></td>
-						<td></td>
-					{% endif %}
-					{% if jour['open_soir'] != null %}
-								<td>{{jour['open_soir']|date('H:i')}}</td>
-								<td>{{jour['close_soir']|date('H:i')}}</td>
-					{% else %}
-						<td></td>
-						<td></td>
-					{% endif %}
-				{% else %}
-					<td>Fermé</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				{% endif %}
-					<td class="accepOverflow">
-					<div {{ react_component('ModifyHoraire', { 'id' : jour['id'], 'jour': name, 'isOpen': jour['open'] } ) }}></div>
-				</td>
-				<td class="accepOverflow">
-					<div {{ react_component('RemoveHoraire', { 'id' : jour['id']}) }} </div>
-				</td>
-			</tr>
-			{% endfor %}
-		</table>
-		<div class="buttonstab">
-			<div {{ react_component('AddHoraire' ) }}></div>
-		</div>
+		<a href= "{{ path('app_structure')}}">Structure </a>
 		<h1>
 			Les reservation
 		</h1>
@@ -143,6 +92,7 @@
 				<th>Couvert</th>
 				<th>Allergènes</th>
 				<th>Commentaires</th>
+				<th>Annuler</th>
 			</tr>
 			{% for resa in reservations %}
 			<tr>
@@ -154,6 +104,9 @@
 				<td>{{ resa.getCouvert()}}</td>
 				<td>{{resa.getAllergene()}}</td>
 				<td>{{resa.getCommentaire()}}</td>
+				<td class="accepOverflow">
+					<div {{ react_component('RemoveReservation', { 'id' : resa.getUuid()}) }} </div>
+				</td>
 			</tr>
 			{% endfor %}
 		</table>

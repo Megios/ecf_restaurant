@@ -79,7 +79,7 @@
 			{% endif %}
 
 		{% else %}
-			<a href="{{ path('app_inscription_page') }} {% if app.request.attributes.get('_route') == "app_inscription_page" %} class=" active" {% endif %}">
+			<a href="{{ path('app_inscription_page') }}" {% if app.request.attributes.get('_route') == "app_inscription_page" %} class=" active" {% endif %}>
 				<Li>S'inscrire</Li>
 			{% endif %}
 			<button>

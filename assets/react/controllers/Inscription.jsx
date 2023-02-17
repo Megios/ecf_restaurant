@@ -121,7 +121,7 @@ const Inscription = (props) => {
             onChange={handleAcceptCGU}
           />
           <label htmlFor="CGU">
-            J'accepte les <a href="#">conditions générales d'utilisation</a>
+            J'accepte les <a href="/CGU">conditions générales d'utilisation</a>
           </label>
         </fieldset>
 

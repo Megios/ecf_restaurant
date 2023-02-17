@@ -44,6 +44,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $allergene = null;
 
+    #[ORM\Column(type:'string', length:100)]
+    private $resetToken=null;
+
     #[ORM\OneToMany(mappedBy: 'account', targetEntity: Reservation::class)]
     private Collection $reservations;
 
@@ -110,6 +113,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->password = $password;
 
+        return $this;
+    }
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken=$resetToken;
         return $this;
     }
 

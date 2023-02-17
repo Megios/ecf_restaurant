@@ -5,6 +5,7 @@ namespace App\Controller\RemoveControllers;
 use Exception;
 
 use App\Entity\Reservation;
+use App\Service\EnvoyeurEmail;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,8 +24,13 @@ class RemoveReservationReactController extends AbstractController
       try {
         $Reservation = $em->getRepository(Reservation::class)->findOneby(array('uuid' => $id));
         if ($Reservation->isAnnulable()){
+          $sendmail = new EnvoyeurEmail();
+          $message = "Votre Reservation a bien été annulé, ce mail conscerne la reservation du  ".date_format($Reservation->getDate(),'d M Y')." a ". $Reservation->afficheHeure();
+          $sendmail->sendMail($Reservation->getEmail(),"Reservation Annuler", $message);
           $em->getRepository(Reservation::class)->remove($Reservation);
           $em->flush();
+          
+          
           return new JsonResponse(['Message' => 'La suppresion de Reservation s\'est bien dérouler']);
         }
         else{

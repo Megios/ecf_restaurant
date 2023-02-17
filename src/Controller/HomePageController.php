@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Galerie;
 use App\Entity\HoraireRestaurant;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,23 +20,36 @@ class HomePageController extends AbstractController
         foreach ($semaine as $jour) {
             $horaireSemaine[$jour->getJour()] = ['open' => $jour->isOuvert(), 'open_midi' => $jour->getOpenMidi(), 'close_midi' => $jour->getCloseMidi(), 'open_soir' => $jour->getOpenSoir(), 'close_soir' => $jour->getCloseSoir()];
         }
+        $galeries= $em->getRepository(Galerie::class) ->findBy(array(),array('ordre'=>'asc'));
+        if (!$galeries){
+            $photo = [];
+            for ($i=0; $i < 4; $i++) { 
+                $tempPhoto = [
+                    'format' => 'paysage',
+                    'source' =>'./image/testpaysage.jpg',
+                    'title' => 'Test image'
+        
+                ];
+                array_push($photo,$tempPhoto);
+            }
+        }else{
+            $photo=[];
+            foreach ($galeries as $image) {
+                $tempPhoto = [
+                    'format' => $image->getFormat(),
+                    'source' => '/image'.'/'.$image->getimageFilename(),
+                    'title' => $image->getTitre(),
+                ];
+                array_push($photo,$tempPhoto);
+            }
 
-        $photo =[
-            'format' => 'portrait',
-            'source' =>'./image/test.png',
-            'title' => 'Test image'
-        ];
-        $photop = [
-            'format' => 'paysage',
-            'source' =>'./image/testpaysage.jpg',
-            'title' => 'Test image'
+        }
 
-        ];
+        
         return $this->render('home_page/index.html.twig', [
             'controller_name' => 'HomePageController',
             'semaine' => $horaireSemaine,
-            'photo' => $photo,
-            'photop' => $photop
+            'photo' => $photo
         ]);
     }
 }
