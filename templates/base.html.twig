@@ -24,4 +24,23 @@
 		{% block body %}{% endblock %}
 		{% block footer %}{% endblock %}
 	</body>
+	{% block addjavascripts %}
+		<script>
+				function toggleMenu() {
+					const navbar = document.querySelector('.navMain');
+					const burger = document.querySelector('#burger');
+					console.log(burger);
+					burger.addEventListener('click', () => {
+						navbar.classList.toggle('show-nav');
+						if(!navbar.classList.contains("show-nav")){
+						document.documentElement.style.overflow = 'hidden'
+					}else(
+						document.documentElement.style.overflow = 'auto'
+					)
+					})
+					
+				}
+				toggleMenu();
+			</script>
+	{% endblock %}
 </html>

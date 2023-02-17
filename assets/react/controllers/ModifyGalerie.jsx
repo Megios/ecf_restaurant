@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "axios";//ok
 import React, { useState } from "react";
 import styled from "styled-components";
 
@@ -71,7 +71,7 @@ const ModifyMenu = (props) => {
                     <label htmlFor="titre">Titre</label>
                   </th>
                   <th>
-                    <label htmlFor="description">Format</label>
+                    <label htmlFor="format">Format</label>
                   </th>
                   <th>
                     <label htmlFor="odre">Ordre</label>
@@ -82,7 +82,7 @@ const ModifyMenu = (props) => {
               <tbody>
 
                 <tr>
-                  <td>
+                  <td data-title="titre">
                     <input
                       type="text"
                       name="titre"
@@ -92,13 +92,13 @@ const ModifyMenu = (props) => {
                       onChange={handleTitreInput}
                     />
                   </td>
-                  <td>
+                  <td data-title="Format">
                     <select id="format" name="format" onChange={handleFormatInput} defaultValue={props.format}>
                       <option value="paysage">paysage</option>
                       <option value="portrait">portrait</option>
                     </select>
                   </td>
-                  <td>
+                  <td data-title="Ordre">
                     <input
                       type="number"
                       name="ordre"
@@ -129,7 +129,6 @@ const ModifyMenu = (props) => {
 };
 
 const Wrapper = styled.div`
-  position: relative;
   #actif {
     position: absolute;
     z-index: 2;

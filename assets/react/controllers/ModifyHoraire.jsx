@@ -191,7 +191,7 @@ const ModifyHoraire = (props) => {
               </thead>
               <tbody>
                 <tr>
-                  <td>
+                  <td data-title="Jour">
                     <input
                       type="text"
                       name="Jour"
@@ -201,7 +201,7 @@ const ModifyHoraire = (props) => {
                       onChange={handleJourInput}
                     />
                   </td>
-                  <td>
+                  <td data-title="Ouvert ?">
                     <input
                       type="checkbox"
                       name="ouvert"
@@ -212,7 +212,7 @@ const ModifyHoraire = (props) => {
                   </td>
                   {ouvert === true ? (
                     <>
-                      <td>
+                      <td data-title="midi?">
                         <input
                           type="checkbox"
                           name="ouvertmidi"
@@ -224,7 +224,7 @@ const ModifyHoraire = (props) => {
                   ) : null}
                   {openMidi === true ? (
                     <>
-                      <td>
+                      <td data-title="Ouverture">
                         <input
                           type="time"
                           name="open_midi"
@@ -232,7 +232,7 @@ const ModifyHoraire = (props) => {
                           onChange={handleOpenMidiInput}
                         />
                       </td>
-                      <td>
+                      <td data-title="Fermeture">
                         <input
                           type="time"
                           name="close_midi"
@@ -242,7 +242,7 @@ const ModifyHoraire = (props) => {
                       </td>
                     </>
                   ) : null}
-                  <td>
+                  <td data-title="Soir?">
                     <input
                       type="checkbox"
                       name="ouvertsoir"
@@ -252,7 +252,7 @@ const ModifyHoraire = (props) => {
                   </td>
                   {openSoir === true ? (
                     <>
-                      <td>
+                      <td data-title="Ouverture">
                         <input
                           type="time"
                           name="open_soir"
@@ -260,7 +260,7 @@ const ModifyHoraire = (props) => {
                           onChange={handleOpenSoirInput}
                         />
                       </td>
-                      <td>
+                      <td data-title="Fermeture">
                         <input
                           type="time"
                           name="close_Soir"
@@ -289,14 +289,12 @@ const ModifyHoraire = (props) => {
 };
 
 const Wrapper = styled.div`
-  position: relative;
   #actif {
     position: absolute;
     z-index: 2;
     display: flex;
     flex-direction: column;
     right: 0%;
-    top: -2%;
     margin: auto;
     background: hsl(35, 57%, 36%);
     border: 2px solid black;

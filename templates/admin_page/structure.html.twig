@@ -23,6 +23,7 @@
 
 		table {
 			text-align: center;
+			position:relative;
 
 		}
 
@@ -55,7 +56,7 @@
 		table,
 		th,
 		td {
-			border: 1px solid black;
+			border: 1px solid #392B1E;
 			border-collapse: collapse;
 			padding: 5px;
 		}
@@ -75,12 +76,55 @@
 		.buttonstab {
 			margin: 10px;
 		}
+		.buttonstab a, td a{
+			text-decoration:none;
+			color:black;
+		}
 		.accepOverflow {
 			overflow: visible;
 		}
-		.overflowx{
-			overflow-x:scroll;
+		
+		@media only screen and (max-width: 800px) {	
+		table, thead, tbody, th, td, tr{ 
+			display: block
 		}
+		thead tr { 
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+		.overflowx{
+			width:90vw;
+		}
+		td { 
+			position: relative;
+			padding-left: 50%; 
+			white-space: normal;
+			text-align: center;
+			max-width:inherit;
+		}
+		table{
+			width:100%
+		}
+		td:before { 
+			position: absolute;
+			top: 6px;
+			left: 6px;
+			width: 45%; 
+			padding-right: 10px; 
+			font-weight: bold;
+			white-space: nowrap;
+			text-align:center;
+			content: attr(data-title)
+				
+		}
+		#actif{
+			width:85vw;
+		}
+		#actif input{
+			width:50%;
+		}
+	}
 	</style>
 	<div class="example-wrapper">
   <div class='petiteInfo'>
@@ -108,71 +152,70 @@
 			<tbody>
 				{% for name,jour in semaine %}
 					<tr>
-						<td>{{name}}</td>
+						<td data-title="Nom">{{name}}</td>
 						{% if jour['open'] == true  %}
-							<td>Ouvert</td>
+							<td data-title="Ouvert">Ouvert</td>
 							{% if jour['open_midi'] != null %}
-								<td>{{jour['open_midi']|date('H:i')}}</td>
-								<td>{{jour['close_midi']|date('H:i')}}</td>
+								<td data-title="Open_midi">{{jour['open_midi']|date('H:i')}}</td>
+								<td data-title="Close_midi">{{jour['close_midi']|date('H:i')}}</td>
 							{% else %}
-								<td></td>
-								<td></td>
+								<td data-title="Open_midi">X</td>
+								<td data-title="Close_midi">X</td>
 							{% endif %}
 							{% if jour['open_soir'] != null %}
-								<td>{{jour['open_soir']|date('H:i')}}</td>
-								<td>{{jour['close_soir']|date('H:i')}}</td>
+								<td data-title="Open_soir">{{jour['open_soir']|date('H:i')}}</td>
+								<td data-title="Close_soir">{{jour['close_soir']|date('H:i')}}</td>
 							{% else %}
-								<td></td>
-								<td></td>
+								<td data-title="Open_soir">X</td>
+								<td data-title="Close_soir">X</td>
 							{% endif %}
 						{% else %}
-							<td>Fermé</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td data-title="Ouvert">Fermé</td>
+							<td data-title="Open_soir">X</td>
+							<td data-title="Close_soir">X</td>
+							<td data-title="Open_soir">X</td>
+							<td data-title="Close_soir">X</td>
 						{% endif %}
-						<td class="accepOverflow">
+						<td data-title="Action" class="accepOverflow">
 							<div {{ react_component('ModifyHoraire', { 'id' : jour['id'], 'jour': name, 'isOpen': jour['open'] } ) }}></div>
 						</td>
-						<td class="accepOverflow">
+						<td data-title="Action" class="accepOverflow">
 							<div {{ react_component('RemoveHoraire', { 'id' : jour['id']} ) }}> </div>
             </td> 
           </tr> 
-          {% endfor %} 
-        </tbody> 
+        {% endfor %} 
+      </tbody> 
     </table> 
 		</div>
-      <h2> galerie </h2>
-      <table> 
-        <thead> 
-          <tr> 
-            <th>Titre </th>
-								<th>Format</th>
-								<th>Ordre</th>
-								<th colspan='2'>Action</th>
-							</tr>
-						</td>
-					</tr>
-				</thead>
-			</tbody>
+    <h2> galerie </h2>
+    <table> 
+      <thead> 
+        <tr> 
+          <th>Titre </th>
+							<th>Format</th>
+							<th>Ordre</th>
+							<th colspan='2'>Action</th>
+						</tr>
+					</td>
+				</tr>
+			</thead>
 			<tbody>
 				{% for image in galeries %}
 					<tr>
-						<td>{{image.getTitre()}}</td>
-						<td>{{image.getFormat()}}</td>
-						<td>{{image.getOrdre()}}</td>
-						<td class="accepOverflow "><div {{ react_component('ModifyGalerie', { 'uuid' : image.getUuid(), 'ordre': image.getOrdre(), 'titre': image.getTitre(),'format': image.Format() } ) }}></div></td>
-						<td>
+						<td data-title="Titre">{{image.getTitre()}}</td>
+						<td data-title="Format">{{image.getFormat()}}</td>
+						<td data-title="Ordre">{{image.getOrdre()}}</td>
+						<td data-title="Action" class="accepOverflow "><div {{ react_component('ModifyGalerie', { 'uuid' : image.getUuid(), 'ordre': image.getOrdre(), 'titre': image.getTitre(),'format': image.Format() } ) }}></div></td>
+						<td data-title="Action">
 							<a href="{{ path('app_galerie_remove',{ 'id': image.getUuid()})}}">supprimer</a>
 						</td>
 					</tr>
 				{% endfor %}
 			</tbody>
-		</td>
-		</tbody>
-	</table>
-		
-<div class="buttonstab">
-	<a href="{{ path('app_galerie_new') }}">Ajouter une image</a>
-</div></div>{% endblock %}{% use "nav.html.twig" %}{% use "footer.html.twig"%}
+		</table>
+		<div class="buttonstab">
+			<a href="{{ path('app_galerie_new') }}">Ajouter une image
+			</a>
+		</div>
+	</div>
+{% endblock %}{% use "nav.html.twig" %}{% use "footer.html.twig"%}

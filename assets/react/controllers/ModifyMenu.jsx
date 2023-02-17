@@ -94,7 +94,7 @@ const ModifyMenu = (props) => {
               <tbody>
 
                 <tr>
-                  <td>
+                  <td data-title="Nom">
                     <input
                       type="text"
                       name="titre"
@@ -104,7 +104,7 @@ const ModifyMenu = (props) => {
                       onChange={handleTitreInput}
                     />
                   </td>
-                  <td>
+                  <td data-title="Description">
                     <input
                       type="text"
                       name="description"
@@ -114,7 +114,7 @@ const ModifyMenu = (props) => {
                       onChange={handleDescriptionInput}
                     />
                   </td>
-                  <td>
+                  <td data-title="Prix">
                     <input
                       type="number"
                       name="Prix"
@@ -124,7 +124,7 @@ const ModifyMenu = (props) => {
                       onChange={handlePrixInput}
                     />
                   </td>
-                  <td>
+                  <td data-title="Ordre">
                     <input
                       type="number"
                       name="ordre"
@@ -134,7 +134,7 @@ const ModifyMenu = (props) => {
                       onChange={handleOrdreInput}
                     />
                   </td>
-                  <td>
+                  <td data-title="Action">
                     <button type="submit" onClick={handleSubmit}>
                       Envoyer
                     </button>
@@ -155,7 +155,6 @@ const ModifyMenu = (props) => {
 };
 
 const Wrapper = styled.div`
-  position: relative;
   #actif {
     position: absolute;
     z-index: 2;

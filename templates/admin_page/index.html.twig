@@ -74,6 +74,47 @@
 		.accepOverflow{
 			overflow:visible;
 		}
+		@media only screen and (max-width: 800px) {	
+		table, thead, tbody, th, td, tr{ 
+			display: block
+		}
+		thead tr { 
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+		.overflowx{
+			width:90vw;
+		}
+		td { 
+			position: relative;
+			padding-left: 50%; 
+			white-space: normal;
+			text-align: center;
+			max-width:inherit;
+		}
+		table{
+			width:100%
+		}
+		td:before { 
+			position: absolute;
+			top: 6px;
+			left: 6px;
+			width: 45%; 
+			padding-right: 10px; 
+			font-weight: bold;
+			white-space: nowrap;
+			text-align:center;
+			content: attr(data-title)
+				
+		}
+		#actif{
+			width:85vw;
+		}
+		#actif input{
+			width:50%;
+		}
+	}
 	</style>
 
 	<div class="example-wrapper">
@@ -83,28 +124,30 @@
 			Les reservation
 		</h1>
 		<table class="Resas">
-			<tr>
-				<th>Date</th>
-				<th>Heure</th>
-				<th>Nom de reservation</th>
-				<th>Email</th>
-				<th>Numero</th>
-				<th>Couvert</th>
-				<th>Allergènes</th>
-				<th>Commentaires</th>
-				<th>Annuler</th>
-			</tr>
+		<thead>
+				<tr>
+					<th>Date</th>
+					<th>Heure</th>
+					<th>Nom de reservation</th>
+					<th>Email</th>
+					<th>Numero</th>
+					<th>Couvert</th>
+					<th>Allergènes</th>
+					<th>Commentaires</th>
+					<th>Annuler</th>
+				</tr>
+			</thead>
 			{% for resa in reservations %}
 			<tr>
-				<td>{{ resa.afficheDate() }}</td>
-				<td>{{ resa.afficheHeure() }}</td>
-				<td>{{ resa.getNomReservation() }}</td>
-				<td>{{ resa.getEmail() }}</td>
-				<td>{{ resa.getNumeroReservation() }}</td>
-				<td>{{ resa.getCouvert()}}</td>
-				<td>{{resa.getAllergene()}}</td>
-				<td>{{resa.getCommentaire()}}</td>
-				<td class="accepOverflow">
+				<td data-title="Date">{{ resa.afficheDate() }}</td>
+				<td data-title="Heure">{{ resa.afficheHeure() }}</td>
+				<td data-title="Nom">{{ resa.getNomReservation() }}</td>
+				<td data-title="Email">{{ resa.getEmail() }}</td>
+				<td data-title="Numero">{{ resa.getNumeroReservation() }}</td>
+				<td data-title="Couvert">{{ resa.getCouvert()}}</td>
+				<td data-title="Allergene">{{resa.getAllergene()}}</td>
+				<td data-title="Commentaire">{{resa.getCommentaire()}}</td>
+				<td data-title="Action" class="accepOverflow">
 					<div {{ react_component('RemoveReservation', { 'id' : resa.getUuid()}) }} </div>
 				</td>
 			</tr>
@@ -114,28 +157,30 @@
 			Les menus
 		</h1>
 		<table class="MenuTab">
-			<tr>
-				<th>Ordre</th>
-				<th>Nom</th>
-				<th>
-					Description
-				</th>
-				<th>
-					Prix</th>
-				<th colspan='2'>Actions</th>
-			</tr>
+			<thead>
+				<tr>
+					<th>Ordre</th>
+					<th>Nom</th>
+					<th>
+						Description
+					</th>
+					<th>
+						Prix</th>
+					<th colspan='2'>Actions</th>
+				</tr>
+			</thead>
 			{% for menu in menus %}
 			<tr>
-				<td>{{menu.getOrdre() }}</td>
-				<td>{{menu.getNom() }}</td>
-				<td>
+				<td data-title="Ordre">{{menu.getOrdre() }}</td>
+				<td data-title="Nom">{{menu.getNom() }}</td>
+				<td data-title="Description">
 					{{menu.getDescription()}}
 				</td>
-				<td>{{menu.affichePrix()}}</td>
-				<td class="accepOverflow">
+				<td data-title="Prix">{{menu.affichePrix()}}</td>
+				<td data-title="Action" class="accepOverflow">
 					<div {{ react_component('ModifyMenu', { 'id' : menu.getId(), 'ordre': menu.getOrdre(), 'nom': menu.getNom(),'prix': menu.getPrix(),'description':menu.getDescription() } ) }}></div>
 				</td>
-				<td class="accepOverflow">
+				<td data-title="Action" class="accepOverflow">
 					<div {{ react_component('RemoveMenu', { 'id' : menu.getId()}) }} </div>
 				</td>
 			</tr>
@@ -147,19 +192,21 @@
 		<h1>Les cartes
 		</h1>
 		<table class="carteTab">
-			<tr>
-				<th>Ordre</th>
-				<th>Nom</th>
-				<th colspan='2'>Action</th>
-			</tr>
+			<thead>
+				<tr>
+					<th>Ordre</th>
+					<th>Nom</th>
+					<th colspan='2'>Action</th>
+				</tr>
+			</thead>
 			{% for carte in cartes %}
 			<tr>
-				<td>{{carte.getOrdre()}} </td>
-				<td>{{carte.getNom()}} </td>
-				<td class="accepOverflow">
+				<td data-title="Ordre">{{carte.getOrdre()}} </td>
+				<td data-title="Nom">{{carte.getNom()}} </td>
+				<td data-title="Action" class="accepOverflow">
 					<div {{ react_component('ModifyCarte', { 'id' : carte.getId(), 'ordre': carte.getOrdre(), 'nom': carte.getNom() } ) }}></div>
 				</td>
-				<td class="accepOverflow">
+				<td data-title="Action" class="accepOverflow">
 					<div {{ react_component('RemoveCarte', { 'id' : carte.getId()}) }} </div>
 				</td>
 			</tr>
@@ -172,21 +219,23 @@
 			Les sous-catégories
 		</h1>
 		<table class="sousCatTab">
-			<tr>
-				<th>Carte</th>
-				<th>Ordre</th>
-				<th>Nom</th>
-				<th colspan='2'>Action</th>
-			</tr>
+			<thead>
+				<tr>
+					<th>Carte</th>
+					<th>Ordre</th>
+					<th>Nom</th>
+					<th colspan='2'>Action</th>
+				</tr>
+			</thead>
 			{% for sousCat in sousCats %}
 				<tr>
-				<td>{{sousCat.getCarte().getNom()}}</td>
-				<td>{{sousCat.getOrdre()}}</td>
-				<td>{{sousCat.getNom()}}</td>
-				<td class="accepOverflow">
+				<td data-title="Carte">{{sousCat.getCarte().getNom()}}</td>
+				<td data-title="Ordre">{{sousCat.getOrdre()}}</td>
+				<td data-title="Nom">{{sousCat.getNom()}}</td>
+				<td data-title="Action" class="accepOverflow">
 					<div {{ react_component('ModifySousCat', { 'cartes' : cartesA ,'id' : sousCat.getId(), 'ordre': sousCat.getOrdre(), 'nom': sousCat.getNom(), 'nomCarte': sousCat.getCarte().getNom() } ) }}></div>
 				</td>
-				<td class="accepOverflow">
+				<td data-title="Action" class="accepOverflow">
 					<div {{ react_component('RemoveSousCat', { 'id' : sousCat.getId()}) }} </div>
 				</td>
 			</tr>
@@ -200,25 +249,27 @@
 			La carte
 		</h1>
 		<table class="produitsTab">
-			<tr>
-				<th>Carte</th>
-				<th>Sous-catégorie</th>
-				<th>Ordre</th>
-				<th>Nom</th>
-				<th>Prix</th>
-				<th colspan= '2'>Action</th>
-			</tr>
+			<thead>
+				<tr>
+					<th>Carte</th>
+					<th>Sous-catégorie</th>
+					<th>Ordre</th>
+					<th>Nom</th>
+					<th>Prix</th>
+					<th colspan= '2'>Action</th>
+				</tr>
+			</thead>
 			{% for produit in produits %}
 			<tr>
-				<td>{{produit.getSousCategorie().getCarte().getNom()}}</td>
-				<td>{{produit.getSousCategorie().getNom()}}</td>
-				<td>{{produit.getOrdre()}}</td>
-				<td>{{produit.getNom()}}</td>
-				<td>{{produit.affichePrix()}}</td>
-				<td class="accepOverflow">
+				<td data-title="Carte">{{produit.getSousCategorie().getCarte().getNom()}}</td>
+				<td data-title="Categorie">{{produit.getSousCategorie().getNom()}}</td>
+				<td data-title="Ordre">{{produit.getOrdre()}}</td>
+				<td data-title="Nom">{{produit.getNom()}}</td>
+				<td data-title="Prix">{{produit.affichePrix()}}</td>
+				<td data-title="Action" class="accepOverflow">
 					<div {{ react_component('ModifyProduit', { 'categories' : sousCatsA  , 'parents' : parents, 'id':produit.getId(),'ordre':produit.getOrdre(),'nom':produit.getNom(),'prix':produit.getPrix(),'nomSousCat':produit.getSousCategorie().getNom()} ) }}></div>
 				</td>
-				<td class="accepOverflow">
+				<td data-title="Action" class="accepOverflow">
 					<div {{ react_component('RemoveProduit', { 'id' : produit.getId()}) }} </div>
 				</td>
 			</tr>

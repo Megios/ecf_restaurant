@@ -70,7 +70,8 @@ const AddSousCat = (props) => {
               onChange={handleNomInput}
             />
             <label htmlFor="carte">Carte :</label>
-            <select name="carte" id="carte" onChange={handleCarteSelect}>
+            <select name="carte" id="carte" onChange={handleCarteSelect} placeholder="Choisissez "> 
+              <option value="" disabled selected>Select your option</option>
               {props.cartes.map((carte) => (
                 <option value={carte['nom']}>{carte['nom']}</option>
               ))}

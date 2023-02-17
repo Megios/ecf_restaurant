@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { devices } from './breackpoint';
 
 const Inscription = (props) => {
   const [email, setEmail] = useState("");
@@ -50,7 +51,7 @@ const Inscription = (props) => {
     <Wrapper>
       <h1>Créer son compte</h1>
       <form method="post" acceptCharset="UTF-8">
-        <fieldset>
+        <fieldset  className="enteteForm">
           <fieldset className="mailfield">
             <label htmlFor="email">Email :</label>
 
@@ -67,7 +68,7 @@ const Inscription = (props) => {
             <input id="tel" type="tel" name="tel" onChange={handleNumInput} />
           </fieldset>
         </fieldset>
-        <fieldset>
+        <fieldset className="bodyForm">
           <label htmlFor="Mdp">Mot de passe :</label>
 
           <input
@@ -77,7 +78,7 @@ const Inscription = (props) => {
             onChange={handleMdpInput}
           />
         </fieldset>
-        <fieldset>
+        <fieldset className="bodyForm">
           <label htmlFor="MdpVerify">Confirmer mot de passe :</label>
 
           <input
@@ -88,12 +89,12 @@ const Inscription = (props) => {
           />
         </fieldset>
 
-        <fieldset>
+        <fieldset className="bodyForm">
           <label htmlFor="name">Nom de la reservation :</label>
 
           <input id="name" type="text" name="name" onChange={handleNomInput} />
         </fieldset>
-        <fieldset>
+        <fieldset className="bodyForm">
           <label htmlFor="Couvert">Nombre de couverts par défault :</label>
           <input
             type="number"
@@ -102,14 +103,14 @@ const Inscription = (props) => {
             onChange={handleCouvertInput}
           />
         </fieldset>
-        <fieldset>
+        <fieldset className="bodyForm">
           <label htmlFor="allergene">Allergène :</label>
 
           <textarea
             id="allergene"
             name="allergene"
             rows={5}
-            cols={50}
+            cols={30}
             onChange={handleAllergeneInput}
           />
         </fieldset>
@@ -223,5 +224,38 @@ const Wrapper = styled.div`
   .btn_main:active {
     box-shadow: inset 0 0 2px 1px #392c1e;
   }
+  @media only screen and ${devices.mobile} {
+    .enteteForm{
+      flex-direction:column;
+      align-items: center;
+    }
+    .enteteForm fieldset{
+      align-items:center;
+    }
+    .bodyForm{
+      flex-direction:column;
+      align-items: center;
+      width:100%;
+    }
+    .bodyForm h4{
+      text-align:center;
+      width:auto;
+    }
+    form{
+      max-width: 95vw;
+    }
+    fieldset{
+      fieldset{
+        flex-direction:column
+      }
+    }
+    form label {
+      width: auto;
+      text-align: center;
+    }
+    form textarea{
+      align-self:center;
+    }
+
 `;
 export default Inscription;

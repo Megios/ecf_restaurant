@@ -4,6 +4,7 @@ import { MdRestaurant } from "react-icons/md";
 import { BsCalendar3 } from "react-icons/bs";
 import HeureResa from "./HeureResa";
 import axios from "axios";
+import { devices } from './breackpoint';
 
 const Reservation = (props) => {
   const date = props.date;
@@ -306,7 +307,7 @@ const Reservation = (props) => {
     <Wrapper>
       <h1>Reserver une table</h1>
       <form method="post" acceptCharset="UTF-8">
-        <fieldset>
+        <fieldset className="enteteForm">
           <fieldset>
             <h3>
               <label htmlFor="email">Email :</label>
@@ -327,13 +328,13 @@ const Reservation = (props) => {
             <input id="tel" type="tel" name="tel" onChange={handleNumInput} defaultValue={props.userNum} />
           </fieldset>
         </fieldset>
-        <fieldset>
+        <fieldset className="bodyForm">
           <h4>
             <label htmlFor="name">Nom de la reservation :</label>
           </h4>
           <input id="name" type="text" name="name" onChange={handleNomInput} defaultValue={props.userNom}/>
         </fieldset>
-        <fieldset>
+        <fieldset className="bodyForm">
           <h4>
             <label htmlFor="allergene">Allergène :</label>
           </h4>
@@ -341,12 +342,12 @@ const Reservation = (props) => {
             id="allergene"
             name="allergene"
             rows={5}
-            cols={50}
+            cols={30}
             onChange={handleAllergeneInput}
             defaultValue={props.userAllergene}
           />
         </fieldset>
-        <fieldset>
+        <fieldset className="bodyForm">
           <h4>
             <label htmlFor="commentaire">Commentaire :</label>
           </h4>
@@ -354,7 +355,7 @@ const Reservation = (props) => {
             id="commentaire"
             name="commentaire"
             rows={5}
-            cols={50}
+            cols={30}
             onChange={handleCommentaireInput}
           />
         </fieldset>
@@ -365,29 +366,34 @@ const Reservation = (props) => {
           ponctualité.
         </p>
         <fieldset>
-          <label htmlFor="couverts" className="icons">
-            <MdRestaurant />
-          </label>
-          <select name="couverts" id="couverts" onChange={handleCouvertSelect} defaultValue={props.userCouvert}>
-            <option value="">--Combien de couverts--</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">6</option>
-            <option value="7">7</option>
-          </select>
-          <label htmlFor="dateResa" className="icons">
-            <BsCalendar3 />
-          </label>
-          <input
-            type="date"
-            id="dateResa"
-            name="dateResa"
-            min={date["now"]}
-            max={date["maxResa"]}
-            onChange={(e) => testhoraire(e)}
-          />
+          <div className="flexx">
+            <label htmlFor="couverts" className="icons">
+              <MdRestaurant />
+            </label>
+            <select name="couverts" id="couverts" onChange={handleCouvertSelect} defaultValue={props.userCouvert}>
+              <option value="">--Combien de couverts--</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">6</option>
+              <option value="7">7</option>
+            </select>
+          </div>
+          <div className="flexx">
+            <label htmlFor="dateResa" className="icons">
+              <BsCalendar3 />
+            </label>
+            <input
+              type="date"
+              id="dateResa"
+              name="dateResa"
+              min={date["now"]}
+              max={date["maxResa"]}
+              onChange={(e) => testhoraire(e)}
+            />
+
+          </div>
         </fieldset>
         <hr />
         <div className="HoHo">
@@ -434,6 +440,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow:hidden;
   form fieldset {
     width: 100%;
     display: flex;
@@ -520,6 +527,36 @@ const Wrapper = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     height: content;
+  }
+  .flexx{
+    display:flex;
+  }
+  @media only screen and ${devices.mobile} {
+    .enteteForm{
+      flex-direction:column;
+      align-items: center;
+    }
+    .enteteForm fieldset{
+      align-items:center;
+      width:auto;
+    }
+    .bodyForm{
+      flex-direction:column;
+      align-items: center;
+      width:auto;
+    }
+    .bodyForm h4{
+      text-align:center;
+      width:auto;
+    }
+    form{
+      max-width: 95vw;
+    }
+    fieldset{
+      fieldset{
+        flex-direction:column
+      }
+    }
   }
 `;
 export default Reservation;

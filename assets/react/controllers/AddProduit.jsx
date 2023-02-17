@@ -85,6 +85,7 @@ const AddProduit = (props) => {
             />
             <label htmlFor="categorie">SousCatégorie :</label>
             <select name="categories" id="categories" onChange={handleSousCatSelect}>
+              <option value="" disabled selected>Select your option</option>
               {props.parents.map((parent) => (
                 <optgroup label={parent}>
                   {props.categories.map((categorie) =>(

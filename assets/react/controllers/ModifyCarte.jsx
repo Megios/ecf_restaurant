@@ -70,7 +70,7 @@ const ModifyCarte = (props) => {
               </thead>
               <tbody>
                 <tr>
-                  <td>
+                  <td data-title="Nom">
                     <input
                       type="text"
                       name="nom"
@@ -80,7 +80,7 @@ const ModifyCarte = (props) => {
                       onChange={handleNomInput}
                     />
                   </td>
-                  <td>
+                  <td data-title="Ordre">
                     <input
                       type="number"
                       name="ordre"
@@ -90,7 +90,7 @@ const ModifyCarte = (props) => {
                       onChange={handleOrdreInput}
                     />
                   </td>
-                  <td>
+                  <td data-title="Action">
                     <button type="submit" onClick={handleSubmit}>
                       Envoyer
                     </button>
@@ -109,7 +109,6 @@ const ModifyCarte = (props) => {
 };
 
 const Wrapper = styled.div`
-  position: relative;
   #actif {
     position: absolute;
     z-index: 2;

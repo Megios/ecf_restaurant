@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-
+import { devices } from './breackpoint';
 
 function AfficheProduits(p) {
   return (
     <div className="Plats">
-      <p>{p["titre"]} </p>
-      <span>{p["prix"]} </span>
+      <p className="one">{p["titre"]} </p>
+      <span className="two">{p["prix"]} </span>
     </div>
   );
 }
@@ -22,7 +22,7 @@ const Carte = (props) => {
       <div className="categories">
         {categories.map((e) => (
           <div className="categorie">
-            <h2>{e}</h2>
+            <h2 className="one">{e}</h2>
             {produits.map((p) =>
               p["categories"] === e ? AfficheProduits(p) : null
             )}
@@ -65,6 +65,27 @@ const Wrapper = styled.div`
   .info {
     align-self: flex-end;
     margin: 20px;
+  }
+  .Plats{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+  }
+  .one{
+    text-align:center;
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .two{
+    text-align:center;
+    grid-column: 2;
+    grid-row: 1;
+  }
+  @media only screen and ${devices.mobile} {
+    .categorie{
+      width: 80vw;
+    }
+    
   }
 `;
 export default Carte;

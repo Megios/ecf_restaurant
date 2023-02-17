@@ -78,7 +78,7 @@ const ModifySousCat = (props) => {
               </thead>
               <tbody>
                 <tr>
-                  <td>
+                  <td data-title="Nom">
                     <input
                       type="text"
                       name="nom"
@@ -88,7 +88,7 @@ const ModifySousCat = (props) => {
                       onChange={handleNomInput}
                     />
                   </td>
-                  <td>
+                  <td data-title="Carte">
                     <select
                       name="carte"
                       id="carte"
@@ -100,7 +100,7 @@ const ModifySousCat = (props) => {
                       ))}
                     </select>
                   </td>
-                  <td>
+                  <td data-title="Ordre">
                     <input
                       type="number"
                       name="ordre"
@@ -110,7 +110,7 @@ const ModifySousCat = (props) => {
                       onChange={handleOrdreInput}
                     />
                   </td>
-                  <td>
+                  <td data-title="Action">
                     <button type="submit" onClick={handleSubmit}>
                       Envoyer
                     </button>
@@ -131,7 +131,6 @@ const ModifySousCat = (props) => {
 };
 
 const Wrapper = styled.div`
-  position: relative;
   #actif {
     position: absolute;
     z-index: 2;

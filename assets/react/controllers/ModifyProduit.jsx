@@ -88,7 +88,7 @@ const ModifyProduit = (props) => {
               <tbody>
                 <tr>
 
-                  <td>
+                  <td data-title="Nom">
                     <input
                       type="text"
                       name="nom"
@@ -98,7 +98,7 @@ const ModifyProduit = (props) => {
                       onChange={handleNomInput}
                     />
                   </td>
-                  <td>
+                  <td data-title="Prix">
                     <input
                       type="number"
                       name="Prix"
@@ -108,7 +108,7 @@ const ModifyProduit = (props) => {
                       onChange={handlePrixInput}
                     />
                   </td>
-                  <td>
+                  <td data-title="Categories">
                     <select
                       name="categories"
                       id="categories"
@@ -128,7 +128,7 @@ const ModifyProduit = (props) => {
                       ))}
                     </select>
                   </td>
-                  <td>
+                  <td data-title="Ordre">
                     <input
                       type="number"
                       name="ordre"
@@ -138,7 +138,7 @@ const ModifyProduit = (props) => {
                       onChange={handleOrdreInput}
                     />
                   </td>
-                  <td>
+                  <td data-title="Action">
                     <button type="submit" onClick={handleSubmit}>
                       Envoyer
                     </button>
