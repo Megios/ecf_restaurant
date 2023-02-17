@@ -60,7 +60,6 @@
 			border: 2px solid #392C1E;
 			box-shadow: 0 1px 4px #392c1e;
 			border-radius: 5px;
-			margin: 10px;
 		}
 		.btn_main:hover {
 			box-shadow: 0 0 4px #b6ac97;
@@ -70,103 +69,16 @@
 			box-shadow: inset 0 0 2px 1px #392c1e;
 		}
 		.buttonstab {
-			margin-left: 10%;
+			margin: 10px;
+		}
+		.accepOverflow{
+			overflow:visible;
 		}
 	</style>
 
 	<div class="example-wrapper">
 		<p>Bienvenue sur votre gestionnaire de compte administrateur</p>
-		<h1>
-			Info Restaurant
-		</h1>
-		<table>
-			<tr>
-				<th>Jour</th>
-				<th>Ouvert/Fermé</th>
-				<th>debut déjeuner</th>
-				<th>fin déjeuner</th>
-				<th>debut diner</th>
-				<th>fin déjeuner</th>
-				<th>Action</th>
-			</tr>
-			<tr>
-				<td>Lundi</td>
-				<td>Ouvert</td>
-				<td>12h00</td>
-				<td>14h00</td>
-				<td>17h00</td>
-				<td>22h00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Mardi</td>
-				<td>Ouvert</td>
-				<td>12h00</td>
-				<td>14h00</td>
-				<td>17h00</td>
-				<td>22h00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Mercredi</td>
-				<td>Fermé</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Jeudi</td>
-				<td>Ouvert</td>
-				<td>12h00</td>
-				<td>14h00</td>
-				<td>17h00</td>
-				<td>22h00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Vendredi</td>
-				<td>Ouvert</td>
-				<td>12h00</td>
-				<td>14h00</td>
-				<td>17h00</td>
-				<td>22h00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Samedi</td>
-				<td>Ouvert</td>
-				<td></td>
-				<td></td>
-				<td>17h00</td>
-				<td>23h00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Dimanche</td>
-				<td>Ouvert</td>
-				<td>12h00</td>
-				<td>16h00</td>
-				<td></td>
-				<td></td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-		</table>
+		<a href= "{{ path('app_structure')}}">Structure </a>
 		<h1>
 			Les reservation
 		</h1>
@@ -176,19 +88,27 @@
 				<th>Heure</th>
 				<th>Nom de reservation</th>
 				<th>Email</th>
+				<th>Numero</th>
 				<th>Couvert</th>
 				<th>Allergènes</th>
 				<th>Commentaires</th>
+				<th>Annuler</th>
 			</tr>
+			{% for resa in reservations %}
 			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td>{{ resa.afficheDate() }}</td>
+				<td>{{ resa.afficheHeure() }}</td>
+				<td>{{ resa.getNomReservation() }}</td>
+				<td>{{ resa.getEmail() }}</td>
+				<td>{{ resa.getNumeroReservation() }}</td>
+				<td>{{ resa.getCouvert()}}</td>
+				<td>{{resa.getAllergene()}}</td>
+				<td>{{resa.getCommentaire()}}</td>
+				<td class="accepOverflow">
+					<div {{ react_component('RemoveReservation', { 'id' : resa.getUuid()}) }} </div>
+				</td>
 			</tr>
+			{% endfor %}
 		</table>
 		<h1>
 			Les menus
@@ -202,77 +122,51 @@
 				</th>
 				<th>
 					Prix</th>
-				<th>Actions</th>
+				<th colspan='2'>Actions</th>
 			</tr>
+			{% for menu in menus %}
 			<tr>
-				<td>1</td>
-				<td>Menu de midi</td>
+				<td>{{menu.getOrdre() }}</td>
+				<td>{{menu.getNom() }}</td>
 				<td>
-					Entré + plat + dessert
+					{{menu.getDescription()}}
 				</td>
-				<td>
-					30€00</td>
-				<td>
-					<button>Modifier</button>
+				<td>{{menu.affichePrix()}}</td>
+				<td class="accepOverflow">
+					<div {{ react_component('ModifyMenu', { 'id' : menu.getId(), 'ordre': menu.getOrdre(), 'nom': menu.getNom(),'prix': menu.getPrix(),'description':menu.getDescription() } ) }}></div>
 				</td>
-			</tr>
-			<tr>
-				<td>2</td>
-				<td>Menu de midi</td>
-				<td>
-					Entré + plat + dessert
-				</td>
-				<td>
-					30€00</td>
-				<td>
-					<button>Modifier</button>
+				<td class="accepOverflow">
+					<div {{ react_component('RemoveMenu', { 'id' : menu.getId()}) }} </div>
 				</td>
 			</tr>
-			<tr>
-				<td>3</td>
-				<td>Menu de midi</td>
-				<td>
-					Entré + plat + dessert
-				</td>
-				<td>
-					30€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
+			{% endfor %}
 		</table>
 		<div class="buttonstab">
-			<button class="btn_main">
-				Ajouter un menu
-			</button>
-		</div>
+			<div {{ react_component('AddMenu' ) }}></div>
+			</div>
 		<h1>Les cartes
 		</h1>
 		<table class="carteTab">
 			<tr>
 				<th>Ordre</th>
 				<th>Nom</th>
-				<th>Action</th>
+				<th colspan='2'>Action</th>
 			</tr>
+			{% for carte in cartes %}
 			<tr>
-				<td>1</td>
-				<td>Repas</td>
-				<td>
-					<button>Modifier</button>
+				<td>{{carte.getOrdre()}} </td>
+				<td>{{carte.getNom()}} </td>
+				<td class="accepOverflow">
+					<div {{ react_component('ModifyCarte', { 'id' : carte.getId(), 'ordre': carte.getOrdre(), 'nom': carte.getNom() } ) }}></div>
+				</td>
+				<td class="accepOverflow">
+					<div {{ react_component('RemoveCarte', { 'id' : carte.getId()}) }} </div>
 				</td>
 			</tr>
-			<tr>
-				<td>2</td>
-				<td>Boisson</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
+			{% endfor %}
 		</table>
 		<div class="buttonstab">
-			<button class="btn_main">
-				Ajouter une carte
-			</button>
+			<div {{ react_component('AddCarte' ) }}></div>
 		</div>
 		<h1>
 			Les sous-catégories
@@ -282,77 +176,25 @@
 				<th>Carte</th>
 				<th>Ordre</th>
 				<th>Nom</th>
-				<th>Action</th>
+				<th colspan='2'>Action</th>
 			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>1</td>
-				<td>Entrées</td>
-				<td>
-					<button>Modifier</button>
+			{% for sousCat in sousCats %}
+				<tr>
+				<td>{{sousCat.getCarte().getNom()}}</td>
+				<td>{{sousCat.getOrdre()}}</td>
+				<td>{{sousCat.getNom()}}</td>
+				<td class="accepOverflow">
+					<div {{ react_component('ModifySousCat', { 'cartes' : cartesA ,'id' : sousCat.getId(), 'ordre': sousCat.getOrdre(), 'nom': sousCat.getNom(), 'nomCarte': sousCat.getCarte().getNom() } ) }}></div>
+				</td>
+				<td class="accepOverflow">
+					<div {{ react_component('RemoveSousCat', { 'id' : sousCat.getId()}) }} </div>
 				</td>
 			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>2</td>
-				<td>Burger</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>3</td>
-				<td>Plats</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>4</td>
-				<td>Desserts</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>1</td>
-				<td>Boisson chaudes</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>2</td>
-				<td>Cocktails sans alcool</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>3</td>
-				<td>Cocktails</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>4</td>
-				<td>Digestifs</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
+			{% endfor %}
+			
 		</table>
 		<div class="buttonstab">
-			<button class="btn_main">
-				Ajouter une sous-catégorie
-			</button>
+			<div {{ react_component('AddSousCat', { 'cartes' : cartesA } ) }}></div>
 		</div>
 		<h1>
 			La carte
@@ -364,293 +206,27 @@
 				<th>Ordre</th>
 				<th>Nom</th>
 				<th>Prix</th>
-				<th>Action</th>
+				<th colspan= '2'>Action</th>
 			</tr>
+			{% for produit in produits %}
 			<tr>
-				<td>Repas</td>
-				<td>Entrées</td>
-				<td>1</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
+				<td>{{produit.getSousCategorie().getCarte().getNom()}}</td>
+				<td>{{produit.getSousCategorie().getNom()}}</td>
+				<td>{{produit.getOrdre()}}</td>
+				<td>{{produit.getNom()}}</td>
+				<td>{{produit.affichePrix()}}</td>
+				<td class="accepOverflow">
+					<div {{ react_component('ModifyProduit', { 'categories' : sousCatsA  , 'parents' : parents, 'id':produit.getId(),'ordre':produit.getOrdre(),'nom':produit.getNom(),'prix':produit.getPrix(),'nomSousCat':produit.getSousCategorie().getNom()} ) }}></div>
+				</td>
+				<td class="accepOverflow">
+					<div {{ react_component('RemoveProduit', { 'id' : produit.getId()}) }} </div>
 				</td>
 			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>Entrées</td>
-				<td>2</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>Entrées</td>
-				<td>3</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>Burger</td>
-				<td>1</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>Burger</td>
-				<td>2</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>Burger</td>
-				<td>3</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>Plats</td>
-				<td>1</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>Plats</td>
-				<td>2</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>Plats</td>
-				<td>3</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>Plats</td>
-				<td>4</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>Desserts</td>
-				<td>1</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>Desserts</td>
-				<td>2</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>Desserts</td>
-				<td>3</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Repas</td>
-				<td>Desserts</td>
-				<td>4</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>Boisson chaudes</td>
-				<td>1</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>Boisson chaudes</td>
-				<td>2</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>Boisson chaudes</td>
-				<td>3</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>Cocktails sans alc</td>
-				<td>1</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>Cocktails sans alc</td>
-				<td>2</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>Cocktails sans alc</td>
-				<td>3</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>Cocktails</td>
-				<td>1</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>Cocktails</td>
-				<td>2</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>Cocktails</td>
-				<td>3</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>Cocktails</td>
-				<td>4</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>Digestifs</td>
-				<td>1</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>Digestifs</td>
-				<td>2</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>Digestifs</td>
-				<td>3</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
-			<tr>
-				<td>Boissons</td>
-				<td>Digestifs</td>
-				<td>4</td>
-				<td>Sauté de veaux</td>
-				<td>12€00</td>
-				<td>
-					<button>Modifier</button>
-				</td>
-			</tr>
+			{% endfor %}
+			
 		</table>
 		<div class="buttonstab">
-			<button class="btn_main">
-				Ajouter une ligne
-			</button>
+			<div {{ react_component('AddProduit', { 'categories' : sousCatsA  , 'parents' : parents} ) }}></div>
 		</div>
 
 

@@ -1,27 +1,20 @@
 import React from "react";
 import styled from "styled-components";
-function AffichePrice(prix) {
-  let affichePrice = String(prix);
-  affichePrice =
-    affichePrice.substring(0, affichePrice.length - 2) +
-    "€" +
-    affichePrice.substring(affichePrice.length - 2);
-  return affichePrice;
-}
+
+
 function AfficheProduits(p) {
   return (
     <div className="Plats">
       <p>{p["titre"]} </p>
-      <span>{AffichePrice(p["prix"])} </span>
+      <span>{p["prix"]} </span>
     </div>
   );
 }
 
 const Carte = (props) => {
-  const carte = props.carte;
+  const carte = props.carte.Carte;
   const categories = carte["categories"];
   const produits = carte["Plats"];
-  console.log(produits);
 
   return (
     <Wrapper>
@@ -36,7 +29,7 @@ const Carte = (props) => {
           </div>
         ))}
       </div>
-      <p class="info">*Tous nos prix sont TTC</p>
+      <p className="info">*Tous nos prix sont TTC</p>
     </Wrapper>
   );
 };

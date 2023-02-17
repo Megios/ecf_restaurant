@@ -3,65 +3,296 @@ import styled from "styled-components";
 import { MdRestaurant } from "react-icons/md";
 import { BsCalendar3 } from "react-icons/bs";
 import HeureResa from "./HeureResa";
+import axios from "axios";
 
 const Reservation = (props) => {
   const date = props.date;
+  const semaine = props.semaine;
   const jours = {
-    1: "lundi",
-    2: "mardi",
-    3: "mercredi",
-    4: "jeudi",
-    5: "vendredi",
-    6: "samedi",
-    0: "dimanche",
+    1: "Lundi",
+    2: "Mardi",
+    3: "Mercredi",
+    4: "Jeudi",
+    5: "Vendredi",
+    6: "Samedi",
+    0: "Dimanche",
   };
 
   //useStateInit
-  const [emailResa, setEmailResa] = useState("");
-  const [numResa, setNumResa] = useState("");
-  const [nomResa, setNomResa] = useState("");
-  const [allergeneResa, setAllergeneResa] = useState("");
+  const [emailResa, setEmailResa] = useState(props.userMail);
+  const [numResa, setNumResa] = useState(props.userNum);
+  const [nomResa, setNomResa] = useState(props.userNom);
+  const [allergeneResa, setAllergeneResa] = useState(props.userAllergene);
   const [commentaireResa, setCommentaireResa] = useState("");
-  const [couvertsResa, setCouvertsResa] = useState("");
+  const [couvertsResa, setCouvertsResa] = useState(props.userCouvert);
   const [dateResa, setDateResa] = useState("");
   const [heureResa, setHeureResa] = useState("");
-  const [jour, setJour] = useState("");
   const [HorairesMidi, setHorairesMidi] = useState();
   const [HorairesSoir, setHorairesSoir] = useState();
+  const [couvertMidi, setCouvertMidi]=useState("");
+  const [couvertSoir, setCouvertSoir]=useState("");
+  const [toast, setToast] = useState("");
 
+  function limiteHoraire(semaine, jour) {
+    let test = {
+      Midi: {
+        Ouverture: null,
+        Fermeture: null,
+      },
+      Soir: {
+        Ouverture: null,
+        Fermeture: null,
+      },
+    };
+    switch (jour) {
+      case "Lundi":
+        if (semaine.Lundi.open) {
+          if (semaine.Lundi.open_midi) {
+            test.Midi.Ouverture = new Date(semaine.Lundi.open_midi.date);
+            test.Midi.Fermeture = new Date(semaine.Lundi.close_midi.date);
+          } else {
+            test.Midi = null;
+          }
+          if (semaine.Lundi.open_soir) {
+            test.Soir.Ouverture = new Date(semaine.Lundi.open_soir.date);
+            test.Soir.Fermeture = new Date(semaine.Lundi.close_soir.date);
+          } else {
+            test.Soir = null;
+          }
+
+          break;
+        } else {
+          test = null;
+          break;
+        }
+      case "Mardi":
+        if (semaine.Mardi.open) {
+          if (semaine.Mardi.open_midi) {
+            test.Midi.Ouverture = new Date(semaine.Mardi.open_midi.date);
+            test.Midi.Fermeture = new Date(semaine.Mardi.close_midi.date);
+          } else {
+            test.Midi = null;
+          }
+          if (semaine.Mardi.open_soir) {
+            test.Soir.Ouverture = new Date(semaine.Mardi.open_soir.date);
+            test.Soir.Fermeture = new Date(semaine.Mardi.close_soir.date);
+          } else {
+            test.Soir = null;
+          }
+
+          break;
+        } else {
+          test = null;
+          break;
+        }
+      case "Mercredi":
+        if (semaine.Mercredi.open) {
+          if (semaine.Mercredi.open_midi) {
+            test.Midi.Ouverture = new Date(semaine.Mercredi.open_midi.date);
+            test.Midi.Fermeture = new Date(semaine.Mercredi.close_midi.date);
+          } else {
+            test.Midi = null;
+          }
+          if (semaine.Mercredi.open_soir) {
+            test.Soir.Ouverture = new Date(semaine.Mercredi.open_soir.date);
+            test.Soir.Fermeture = new Date(semaine.Mercredi.close_soir.date);
+          } else {
+            test.Soir = null;
+          }
+
+          break;
+        } else {
+          test = null;
+          break;
+        }
+      case "Jeudi":
+        if (semaine.Jeudi.open) {
+          if (semaine.Jeudi.open_midi) {
+            test.Midi.Ouverture = new Date(semaine.Jeudi.open_midi.date);
+            test.Midi.Fermeture = new Date(semaine.Jeudi.close_midi.date);
+          } else {
+            test.Midi = null;
+          }
+          if (semaine.Jeudi.open_soir) {
+            test.Soir.Ouverture = new Date(semaine.Jeudi.open_soir.date);
+            test.Soir.Fermeture = new Date(semaine.Jeudi.close_soir.date);
+          } else {
+            test.Soir = null;
+          }
+
+          break;
+        } else {
+          test = null;
+          break;
+        }
+      case "Vendredi":
+        if (semaine.Vendredi.open) {
+          if (semaine.Vendredi.open_midi) {
+            test.Midi.Ouverture = new Date(semaine.Vendredi.open_midi.date);
+            test.Midi.Fermeture = new Date(semaine.Vendredi.close_midi.date);
+          } else {
+            test.Midi = null;
+          }
+          if (semaine.Vendredi.open_soir) {
+            test.Soir.Ouverture = new Date(semaine.Vendredi.open_soir.date);
+            test.Soir.Fermeture = new Date(semaine.Vendredi.close_soir.date);
+          } else {
+            test.Soir = null;
+          }
+
+          break;
+        } else {
+          test = null;
+          break;
+        }
+      case "Samedi":
+        if (semaine.Samedi.open) {
+          if (semaine.Samedi.open_midi) {
+            test.Midi.Ouverture = new Date(semaine.Samedi.open_midi.date);
+            test.Midi.Fermeture = new Date(semaine.Samedi.close_midi.date);
+          } else {
+            test.Midi = null;
+          }
+          if (semaine.Samedi.open_soir) {
+            test.Soir.Ouverture = new Date(semaine.Samedi.open_soir.date);
+            test.Soir.Fermeture = new Date(semaine.Samedi.close_soir.date);
+          } else {
+            test.Soir = null;
+          }
+
+          break;
+        } else {
+          test = null;
+          break;
+        }
+      default:
+        if (semaine.Dimanche.open) {
+          if (semaine.Dimanche.open_midi) {
+            test.Midi.Ouverture = new Date(semaine.Dimanche.open_midi.date);
+            test.Midi.Fermeture = new Date(semaine.Dimanche.close_midi.date);
+          } else {
+            test.Midi = null;
+          }
+          if (semaine.Dimanche.open_soir) {
+            test.Soir.Ouverture = new Date(semaine.Dimanche.open_soir.date);
+            test.Soir.Fermeture = new Date(semaine.Dimanche.close_soir.date);
+          } else {
+            test.Soir = null;
+          }
+
+          break;
+        } else {
+          test = null;
+          break;
+        }
+    }
+    return test;
+  }
+
+  function possibleChoix(test) {
+    if (test !== null) {
+      if (test.Midi !== null) {
+        var possibilité = new Date(test.Midi.Ouverture);
+        var tab =[possibilité.getHours() +
+          ":" +
+          (possibilité.getMinutes() < 10 ? "0" : "") +
+          possibilité.getMinutes()]
+        while (possibilité.getTime() < (test.Midi.Fermeture.getTime()-60*60000)) {
+          possibilité = new Date(possibilité.getTime() + 15 * 60000);
+          tab.push(possibilité.getHours() +
+          ":" +
+          (possibilité.getMinutes() < 10 ? "0" : "") +
+          possibilité.getMinutes())
+        }
+        setHorairesMidi(tab);
+      } else {
+        setHorairesMidi("");
+      }
+      if (test.Soir !== null) {
+        var possibilité = new Date(test.Soir.Ouverture);
+        var tab =[possibilité.getHours() +
+          ":" +
+          (possibilité.getMinutes() < 10 ? "0" : "") +
+          possibilité.getMinutes()]
+        while (possibilité.getTime() < (test.Soir.Fermeture.getTime()-60*60000)) {
+          possibilité = new Date(possibilité.getTime() + 15 * 60000);
+          tab.push(possibilité.getHours() +
+          ":" +
+          (possibilité.getMinutes() < 10 ? "0" : "") +
+          possibilité.getMinutes())
+          ;
+        }
+        setHorairesSoir(tab);
+      } else {
+        setHorairesSoir("");
+      }
+    } else {
+      setHorairesMidi("");
+      setHorairesSoir("");
+    }
+  }
   let testhoraire = (e) => {
     const test = new Date(e.target.value);
     console.log(jours[test.getDay()]);
     setDateResa(test);
-    setJour(test.getDay());
-    setHorairesMidi(["12:00", "12:15", "12:30", "12:45", "13:00"]);
-    setHorairesSoir([
-      "17:00",
-      "17:15",
-      "17:30",
-      "17:45",
-      "18:00",
-      "18:15",
-      "18:30",
-      "18:45",
-      "19:00",
-    ]);
+    let futurChoix = limiteHoraire(semaine, jours[test.getDay()]);
+    console.log(futurChoix);
+    possibleChoix(futurChoix);
+    axios.get("/getCount",{
+      params:{
+        slug:test,
+      }
+    }).then((res) => {
+        console.log(res);
+        setCouvertMidi(res.data.midi);
+        setCouvertSoir(res.data.soir);
+    }).catch((err) => console.log(err.toString(), 'error'));
   };
 
   //handle
   const handleSubmit = (e) => {
     e.preventDefault();
-    let formulaire = {
-      Email: emailResa,
-      Num: numResa,
-      Nom: nomResa,
-      Allergene: allergeneResa,
-      Commentaire: commentaireResa,
-      Couverts: couvertsResa,
-      Dates: dateResa,
-      Heure: heureResa,
-    };
-    console.log(formulaire);
+    let formulaire;
+    if (props.userMail){
+      formulaire = {
+        Email: emailResa,
+        Num: numResa,
+        Nom: nomResa,
+        Allergene: allergeneResa,
+        Commentaire: commentaireResa,
+        Couverts: couvertsResa,
+        Date: dateResa,
+        Heure: heureResa,
+        User: props.userMail,
+      };
+    }
+    else{
+      formulaire = {
+        Email: emailResa,
+        Num: numResa,
+        Nom: nomResa,
+        Allergene: allergeneResa,
+        Commentaire: commentaireResa,
+        Couverts: couvertsResa,
+        Date: dateResa,
+        Heure: heureResa,
+      };
+    }
+    if(dateResa==='' || heureResa===''){
+      setToast(false);
+    }
+    else{
+      axios
+        .post("/addResa", formulaire)
+        .then(function (response) {
+          console.log(response.data);
+          setToast(true);
+        })
+        .catch(function (error) {
+          console.log(error);
+          setToast(false);
+        });
+    }
   };
 
   const handleEmailInput = (e) => setEmailResa(e.target.value);
@@ -70,13 +301,6 @@ const Reservation = (props) => {
   const handleAllergeneInput = (e) => setAllergeneResa(e.target.value);
   const handleCommentaireInput = (e) => setCommentaireResa(e.target.value);
   const handleCouvertSelect = (e) => setCouvertsResa(e.target.value);
-  let lundi = {
-    open: true,
-    open_midi: "12:00",
-    close_midi: "14:00",
-    open_soir: "17:00",
-    close_soir: "22:00",
-  };
 
   return (
     <Wrapper>
@@ -92,6 +316,7 @@ const Reservation = (props) => {
               type="email"
               name="email"
               onChange={handleEmailInput}
+              defaultValue={props.userMail}
             />
           </fieldset>
 
@@ -99,14 +324,14 @@ const Reservation = (props) => {
             <h3>
               <label htmlFor="number">N° de téléphone :</label>
             </h3>
-            <input id="tel" type="tel" name="tel" onChange={handleNumInput} />
+            <input id="tel" type="tel" name="tel" onChange={handleNumInput} defaultValue={props.userNum} />
           </fieldset>
         </fieldset>
         <fieldset>
           <h4>
             <label htmlFor="name">Nom de la reservation :</label>
           </h4>
-          <input id="name" type="text" name="name" onChange={handleNomInput} />
+          <input id="name" type="text" name="name" onChange={handleNomInput} defaultValue={props.userNom}/>
         </fieldset>
         <fieldset>
           <h4>
@@ -118,6 +343,7 @@ const Reservation = (props) => {
             rows={5}
             cols={50}
             onChange={handleAllergeneInput}
+            defaultValue={props.userAllergene}
           />
         </fieldset>
         <fieldset>
@@ -142,7 +368,7 @@ const Reservation = (props) => {
           <label htmlFor="couverts" className="icons">
             <MdRestaurant />
           </label>
-          <select name="couverts" id="couverts" onChange={handleCouvertSelect}>
+          <select name="couverts" id="couverts" onChange={handleCouvertSelect} defaultValue={props.userCouvert}>
             <option value="">--Combien de couverts--</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -158,7 +384,6 @@ const Reservation = (props) => {
             type="date"
             id="dateResa"
             name="dateResa"
-            defaultValue={date["now"]}
             min={date["now"]}
             max={date["maxResa"]}
             onChange={(e) => testhoraire(e)}
@@ -166,8 +391,8 @@ const Reservation = (props) => {
         </fieldset>
         <hr />
         <div className="HoHo">
-          {HorairesMidi === "" || HorairesMidi === undefined ? null : (
-            <h5>Midi</h5>
+          {HorairesMidi === "" || HorairesMidi === undefined ? null : (<>
+            <h5>Midi</h5><p>Couverts disponibles : {props.maxCouvert-couvertMidi} </p></>
           )}
           <div className="Ho">
             {HorairesMidi === "" || HorairesMidi === undefined
@@ -176,8 +401,9 @@ const Reservation = (props) => {
                   <HeureResa day={h} setHeureResa={setHeureResa} />
                 ))}
           </div>
-          {HorairesSoir === "" || HorairesSoir === undefined ? null : (
-            <h5>Soir</h5>
+          {HorairesSoir === "" || HorairesSoir === undefined ? null : (<>
+            <h5>Soir</h5><p>Couverts disponibles : {props.maxCouvert-couvertSoir} </p></>
+            
           )}
           <div className="Ho">
             {HorairesSoir === "" || HorairesSoir === undefined
@@ -195,6 +421,11 @@ const Reservation = (props) => {
           Envoyer !
         </button>
       </form>
+      {toast === true ? (
+        <p>l'inscription c'est bien passez</p>
+      ) : toast === "" ? null : (
+        <p>une erreur est survenu</p>
+      )}
     </Wrapper>
   );
 };

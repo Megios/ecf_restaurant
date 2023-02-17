@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
 
@@ -10,6 +11,7 @@ const Inscription = (props) => {
   const [defaultAllergene, setDefaultAllergene] = useState("");
   const [defaultCouverts, setDefaultCouverts] = useState("");
   const [acceptCGU, setAcceptCGU] = useState(false);
+  const [toast, setToast] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,6 +26,16 @@ const Inscription = (props) => {
       acceptCGU: acceptCGU,
     };
     console.log(formulaire);
+    axios
+      .post("/addUser", formulaire)
+      .then(function (response) {
+        console.log(response.data.Message);
+        setToast(true);
+      })
+      .catch(function (error) {
+        console.log(error);
+        setToast(false);
+      });
   };
 
   const handleEmailInput = (e) => setEmail(e.target.value);
@@ -109,7 +121,7 @@ const Inscription = (props) => {
             onChange={handleAcceptCGU}
           />
           <label htmlFor="CGU">
-            J'accepte les <a href="#">conditions générales d'utilisation</a>
+            J'accepte les <a href="/CGU">conditions générales d'utilisation</a>
           </label>
         </fieldset>
 
@@ -117,6 +129,11 @@ const Inscription = (props) => {
           Envoyer !
         </button>
       </form>
+      {toast === true ? (
+        <p>l'inscription c'est bien passez</p>
+      ) : toast === "" ? null : (
+        <p>une erreur est survenu</p>
+      )}
     </Wrapper>
   );
 };

@@ -2,73 +2,46 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Exception;
+use App\Entity\User;
+use App\Entity\Reservation;
+
+use App\Entity\HoraireRestaurant;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AccountPageController extends AbstractController
 {
     #[Route('/account', name: 'app_account_page')]
-    public function index(): Response
+    public function index(EntityManagerInterface $em, UserInterface $userD): Response
     {
-        $lundi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $mardi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $mercredi = [
-            'open' => false,
-        ];
-        $jeudi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $vendredi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $samedi = [
-            'open' => true,
-            'open_midi' => '',
-            'close_midi' => '',
-            'open_soir' => '17:00',
-            'close_soir' => '23:00'
-        ];
+        $semaine = $em->getRepository(HoraireRestaurant::class)->findAll();
 
-        $dimanche = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '16:00',
-            'open_soir' => '',
-            'close_soir' => ''
-        ];
-        $semaine = [
-            'Lundi' => $lundi,
-            'Mardi' => $mardi,
-            'Mercredi' => $mercredi,
-            'Jeudi' => $jeudi,
-            'Vendredi' => $vendredi,
-            'Samedi' => $samedi,
-            'Dimanche' => $dimanche
-        ];
+        $horaireSemaine = [];
+        foreach ($semaine as $jour) {
+            $horaireSemaine[$jour->getJour()] = ['open' => $jour->isOuvert(), 'open_midi' => $jour->getOpenMidi(), 'close_midi' => $jour->getCloseMidi(), 'open_soir' => $jour->getOpenSoir(), 'close_soir' => $jour->getCloseSoir()];
+        }
+
+        $user = $em->getRepository(User::class)->findby(array('email' => $userD->getUserIdentifier()));
+
+        try {
+            $reservations = $em->getRepository(Reservation::class)->findby(array('account' => $user[0]->getId()),array('date'=>'ASC'));
+        } catch (Exception $e) {
+            $reservations = null;
+        }
+
+
+
+
         return $this->render('account_page/index.html.twig', [
             'controller_name' => 'AccountPageController',
-            'semaine' => $semaine,
+            'semaine' => $horaireSemaine,
+            'info' => $user,
+            'resas' => $reservations
         ]);
     }
 }

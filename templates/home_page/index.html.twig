@@ -34,13 +34,18 @@
 			box-shadow: inset 0 0 2px 1px #392c1e;
 		}
 		.galerieContainer {
-			margin: 0;
-			padding: 20px 10px;
+			max-width : 1046px;
+			margin: 20px auto;
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: center;
 			align-items: center;
+			overflow-x: hidden;
 		}
+		.galerieContainer > div{
+			margin: 20px 10px;
+		}
+		
 	</style>
 
 
@@ -49,10 +54,9 @@
 		{# Il est recommandé d'utilisez que des paysages
 								<div {{ react_component('Card', { 'photo': photo } ) }}></div>
 								<div {{ react_component('Card', { 'photo': photo } ) }}></div> #}
-		<div {{ react_component('Galerie', { 'photo': photop } ) }}></div>
-		<div {{ react_component('Galerie', { 'photo': photop } ) }}></div>
-		<div {{ react_component('Galerie', { 'photo': photop } ) }}></div>
-		<div {{ react_component('Galerie', { 'photo': photop } ) }}></div>
+		{% for image in photo %}
+			<div {{ react_component('Galerie', { 'photo': image } ) }}></div>
+		{% endfor %}
 	</div>
 	<div class="flexx">
 		<button class="btn_main">

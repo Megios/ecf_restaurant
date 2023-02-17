@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class LoginPageController extends AbstractController
 {
-    #[Route('/login', name: 'app_login_page')]
+    #[Route('/login2', name: 'app_login_page')]
     public function index(): Response
     {
         $lundi = [

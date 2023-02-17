@@ -2,73 +2,67 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Exception;
+use App\Entity\Menu;
+use App\Entity\User;
+use App\Entity\Carte;
+use App\Entity\Produit;
+use App\Entity\Reservation;
+use App\Entity\SousCategorie;
+use App\Entity\HoraireRestaurant;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminPageController extends AbstractController
 {
     #[Route('/admin', name: 'app_admin_page')]
-    public function index(): Response
+    public function index(EntityManagerInterface $em,UserInterface $userD): Response
     {
-        $lundi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $mardi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $mercredi = [
-            'open' => false,
-        ];
-        $jeudi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $vendredi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $samedi = [
-            'open' => true,
-            'open_midi' => '',
-            'close_midi' => '',
-            'open_soir' => '17:00',
-            'close_soir' => '23:00'
-        ];
-
-        $dimanche = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '16:00',
-            'open_soir' => '',
-            'close_soir' => ''
-        ];
-        $semaine = [
-            'Lundi' => $lundi,
-            'Mardi' => $mardi,
-            'Mercredi' => $mercredi,
-            'Jeudi' => $jeudi,
-            'Vendredi' => $vendredi,
-            'Samedi' => $samedi,
-            'Dimanche' => $dimanche
-        ];
+        $semaine = $em->getRepository(HoraireRestaurant::class)->findAll();
+        $horaireSemaine = [];
+        foreach ($semaine as $jour) {
+            $horaireSemaine[$jour->getJour()] = ['open' => $jour->isOuvert(), 'open_midi' => $jour->getOpenMidi(), 'close_midi' => $jour->getCloseMidi(), 'open_soir' => $jour->getOpenSoir(), 'close_soir' => $jour->getCloseSoir(),'id' =>$jour->getId()];
+        }
+        $user = $em->getRepository(User::class)->findby(array('email' => $userD->getUserIdentifier()));
+        try{
+            $reservations = $em->getRepository(Reservation::class)->findAll(array(),array('date'=>'ASC'));
+        }catch(Exception $e ){
+            $reservations=null;
+        }
+        $menus = $em->getRepository(Menu::class)->findby(array(),array('ordre' => 'asc'));
+        $cartes = $em->getRepository(Carte::class)->findby(array(),array('ordre' => 'asc'));
+        // $sousCats= $em->getRepository(SousCategorie::class)->findby(array(),array('nom'=> 'asc'),array('ordre' => 'asc'));
+        $sousCats=$em->getRepository(SousCategorie::class)->findAllTrier();
+        $tabSousCats = [];
+        foreach ($cartes as $carte) {
+            $objets=[ 'nom' => $carte->getNom(),'ordre' => $carte->getOrdre()];
+            array_push($tabSousCats,$objets);
+            # code...
+        }
+        $tabProduits = [];
+        $parentProduits =[];
+        foreach($sousCats as $sousCat){
+            $objets=['parent'=> $sousCat->getCarte()->getNom(),'nom'=> $sousCat->getNom()];
+            array_push($tabProduits,$objets);
+            if(!in_array($objets['parent'],$parentProduits)){
+                array_push($parentProduits,$objets['parent']);
+            };
+        }
+        $produits=$em->getRepository(Produit::class)->findAllTrier();
         return $this->render('admin_page/index.html.twig', [
             'controller_name' => 'AdminPageController',
-            'semaine' => $semaine,
+            'semaine' => $horaireSemaine,
+            'reservations' => $reservations,
+            'menus' => $menus,
+            'cartes' => $cartes,
+            'cartesA' => $tabSousCats,
+            'sousCats' => $sousCats,
+            'sousCatsA'=> $tabProduits,
+            'parents' => $parentProduits,
+            'produits' => $produits
         ]);
     }
 }

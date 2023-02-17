@@ -26,7 +26,7 @@
 		}
 		.Resas tr td:nth-child(1),
 		.Resas tr th:nth-child(1) {
-			width: 12ch;
+			width: 16ch;
 		}
 		.Resas tr td:nth-child(2),
 		.Resas tr th:nth-child(2) {
@@ -70,6 +70,9 @@
 			border-collapse: collapse;
 			padding: 5px;
 		}
+		.accepOverflow{
+			overflow:visible;
+		}
 	</style>
 
 	<div class="example-wrapper">
@@ -82,15 +85,14 @@
 				<td>
 					Email
 				</td>
-				<td class='emailTab'>ad.messaoudene@gmail.com
+				<td class='emailTab'>{{ info[0].getEmail() }}
 				</td>
-				<td></td>
 			</tr>
 			<tr>
 				<td>
-					Nom des reservation
+					Nom des reservation par default
 				</td>
-				<td></td>
+				<td>{{ info[0].getReservationName() }}</td>
 				<td>
 					<button>
 						Modifier</button>
@@ -100,7 +102,7 @@
 				<td>
 					N° de téléphone
 				</td>
-				<td></td>
+				<td>{{ info[0].getNumeroTel() }}</td>
 				<td>
 					<button>
 						Modifier</button>
@@ -108,9 +110,9 @@
 			</tr>
 			<tr>
 				<td>
-					Nombre de couvert
+					Nombre de couvert par default
 				</td>
-				<td></td>
+				<td>{{ info[0].getCouvertDefault() }}</td>
 				<td>
 					<button>
 						Modifier</button>
@@ -120,7 +122,7 @@
 				<td>
 					Allergènes
 				</td>
-				<td>aaaaaaaaaa aaaaaaaaaaaaaaa aaaaaaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaa</td>
+				<td>{{ info[0].getAllergene() }}</td>
 				<td>
 					<button>Modifier</button>
 				</td>
@@ -138,27 +140,23 @@
 				<th>Commentaires</th>
 				<th>Action</th>
 			</tr>
+			{% for resa in resas %}
 			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>
-					<button>Annuler</button>
+				<td>{{ resa.afficheDate() }}</td>
+				<td>{{ resa.afficheHeure() }}</td>
+				<td>{{ resa.getCouvert() }}</td>
+				<td>{{ resa.getAllergene() }}</td>
+				<td>{{ resa.getCommentaire() }}</td>
+				{% if resa.isAnnulable() %}
+					<td class="accepOverflow">
+					<div {{ react_component('RemoveReservation', { 'id' : resa.getUuid()}) }} </div>
 				</td>
-			</tr>
-			<tr>
-				<td>12 dec 2021</td>
-				<td>11h30</td>
-				<td>12</td>
-				<td>aaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaa
-				</td>
-				<td>aaaaaaaaaa aaaaaaaaaaaaaaa aaaaaaaaaaaaaa aaaaaaaaaaaaa aaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaa</td>
-				<td>
-					<button>Annuler</button>
-				</td>
-			</tr>
+				{% else %}
+					<td>X</td>
+				{% endif %}
+				
+			{% endfor %}
+			
 		</table>
 		<span>*Possibilité d’annuler une reservation jusqu’à 8h avant l’heure.
 		</span>

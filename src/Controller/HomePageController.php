@@ -2,87 +2,54 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Galerie;
+use App\Entity\HoraireRestaurant;
+
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomePageController extends AbstractController
 {
     #[Route('/', name: 'app_home_page')]
-    public function index(): Response
+    public function index(EntityManagerInterface $em): Response
     {
-        $lundi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $mardi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $mercredi = [
-            'open' => false,
-        ];
-        $jeudi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $vendredi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $samedi = [
-            'open' => true,
-            'open_midi' => '',
-            'close_midi' => '',
-            'open_soir' => '17:00',
-            'close_soir' => '23:00'
-        ];
+        $semaine = $em->getRepository(HoraireRestaurant::class)->findAll();
+        $horaireSemaine = [];
+        foreach ($semaine as $jour) {
+            $horaireSemaine[$jour->getJour()] = ['open' => $jour->isOuvert(), 'open_midi' => $jour->getOpenMidi(), 'close_midi' => $jour->getCloseMidi(), 'open_soir' => $jour->getOpenSoir(), 'close_soir' => $jour->getCloseSoir()];
+        }
+        $galeries= $em->getRepository(Galerie::class) ->findBy(array(),array('ordre'=>'asc'));
+        if (!$galeries){
+            $photo = [];
+            for ($i=0; $i < 4; $i++) { 
+                $tempPhoto = [
+                    'format' => 'paysage',
+                    'source' =>'./image/testpaysage.jpg',
+                    'title' => 'Test image'
+        
+                ];
+                array_push($photo,$tempPhoto);
+            }
+        }else{
+            $photo=[];
+            foreach ($galeries as $image) {
+                $tempPhoto = [
+                    'format' => $image->getFormat(),
+                    'source' => '/image'.'/'.$image->getimageFilename(),
+                    'title' => $image->getTitre(),
+                ];
+                array_push($photo,$tempPhoto);
+            }
 
-        $dimanche = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '16:00',
-            'open_soir' => '',
-            'close_soir' => ''
-        ];
-        $semaine = [
-            'Lundi' => $lundi,
-            'Mardi' => $mardi,
-            'Mercredi' => $mercredi,
-            'Jeudi' => $jeudi,
-            'Vendredi' => $vendredi,
-            'Samedi' => $samedi,
-            'Dimanche' => $dimanche
-        ];
+        }
 
-        $photo =[
-            'format' => 'portrait',
-            'source' =>'./image/test.png',
-            'title' => 'Test image'
-        ];
-        $photop = [
-            'format' => 'paysage',
-            'source' =>'./image/testpaysage.jpg',
-            'title' => 'Test image'
-
-        ];
+        
         return $this->render('home_page/index.html.twig', [
             'controller_name' => 'HomePageController',
-            'semaine' => $semaine,
-            'photo' => $photo,
-            'photop' => $photop
+            'semaine' => $horaireSemaine,
+            'photo' => $photo
         ]);
     }
 }

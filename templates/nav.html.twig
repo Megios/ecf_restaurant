@@ -67,17 +67,35 @@
 		<a href="{{ path('app_menu_page') }}" {% if app.request.attributes.get('_route') == "app_menu_page" %} class="active" {% endif %}>
 			<Li>Menu</Li>
 		</a>
-		<a href="{{ path('app_inscription_page') }}">
-			<Li>S'inscrire</Li>
-		</a>
-		<button>
-			<a href="{{ path('app_reservation_page') }}" {% if app.request.attributes.get('_route') == "app_reservation_page" %} class="active" {% endif %}>
-				<Li>Reserver</Li>
-			</a>
-		</button>
-		<a href="{{path('app_login_page')}}" {% if app.request.attributes.get('_route') == "app_login_page" %} class="active" {% endif %}>
-			<Li>Se Connecter</Li>
-		</a>
-	</ul>
+		{% if app.user %}
+			{% if is_granted('ROLE_ADMIN') %}
+				<a href="{{ path('app_admin_page') }}" {% if app.request.attributes.get('_route') == "app_admin_page" %} class="active" {% endif %}>
+					<Li>Mon admin Compte</Li>
+				</a>
+			{% else %}
+				<a href="{{ path('app_account_page') }}" {% if app.request.attributes.get('_route') == "app_account_page" %} class="active" {% endif %}>
+					<Li>Mon Compte</Li>
+				</a>
+			{% endif %}
 
-{% endblock %}
+		{% else %}
+			<a href="{{ path('app_inscription_page') }}" {% if app.request.attributes.get('_route') == "app_inscription_page" %} class=" active" {% endif %}>
+				<Li>S'inscrire</Li>
+			{% endif %}
+			<button>
+				<a href="{{ path('app_reservation_page') }}" {% if app.request.attributes.get('_route') == "app_reservation_page" %} class="active" {% endif %}>
+					<Li>Reserver</Li>
+				</a>
+			</button>
+			{%if app.user %}
+				<a href="{{ path('app_logout') }}">
+					<Li>Se Deconnecté</Li>
+				</a>
+			{% else %}
+				<a href="{{path('app_login')}}" {% if app.request.attributes.get('_route') == "app_login" %} class="active" {% endif %}>
+					<Li>Se Connecter</Li>
+				</a>
+			{% endif %}
+		</ul>
+
+	{% endblock %}

@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\HoraireRestaurant;
+
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,73 +12,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class ReservationPageController extends AbstractController
 {
     #[Route('/reservation', name: 'app_reservation_page')]
-    public function index(): Response
+    public function index(EntityManagerInterface $em): Response
     {
-        $lundi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $mardi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $mercredi = [
-            'open' => false,
-        ];
-        $jeudi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $vendredi = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '14:00',
-            'open_soir' => '17:00',
-            'close_soir' => '22:00'
-        ];
-        $samedi = [
-            'open' => true,
-            'open_midi' => '',
-            'close_midi' => '',
-            'open_soir' => '17:00',
-            'close_soir' => '23:00'
-        ];
-
-        $dimanche = [
-            'open' => true,
-            'open_midi' => '12:00',
-            'close_midi' => '16:00',
-            'open_soir' => '',
-            'close_soir' => ''
-        ];
-        $semaine = [
-            'Lundi' => $lundi,
-            'Mardi' => $mardi,
-            'Mercredi' => $mercredi,
-            'Jeudi' => $jeudi,
-            'Vendredi' => $vendredi,
-            'Samedi' => $samedi,
-            'Dimanche' => $dimanche
-        ];
+        $semaine = $em->getRepository(HoraireRestaurant::class)->findAll();
+        $horaireSemaine = [];
+        foreach ($semaine as $jour) {
+            $horaireSemaine[$jour->getJour()] = ['open' => $jour->isOuvert(), 'open_midi' => $jour->getOpenMidi(), 'close_midi' => $jour->getCloseMidi(), 'open_soir' => $jour->getOpenSoir(), 'close_soir' => $jour->getCloseSoir()];
+        }
+        
 
         $date= [
             'now' => date("Y-m-d",time()),
             'maxResa' => date("Y-m-d",mktime(0,0,0,date("m")+1,date("d"),date("Y")))
         ];
-        var_dump($date);
         return $this->render('reservation_page/index.html.twig', [
             'controller_name' => 'ReservationPageController',
             'date' => $date,
-            'semaine' => $semaine
+            'semaine' => $horaireSemaine
         ]);
     }
 }
