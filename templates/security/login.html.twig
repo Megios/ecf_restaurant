@@ -4,6 +4,57 @@
 {% endblock %}
 
 {% block body %}
+	<style>
+	body{
+		min-height:100vh;
+		display:flex;
+		flex-direction:column;
+		text-align:center;
+	}
+		form{
+			text-align:center;
+			margin: 30px auto auto auto;
+		}
+		form a {
+			display:block;
+		}
+		fieldset{
+			border:none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+  }
+  .one{
+    text-align:center;
+    grid-column: 1;
+  }
+  .two{
+    text-align:center;
+    grid-column: 2;
+  }
+	.btn_main {
+			background: hsl(35, 57%, 36%, 0.5);
+			border: 2px solid #392C1E;
+			box-shadow: 0 1px 4px #392c1e;
+			border-radius: 25px;
+			margin-top: 10px;
+		}
+		.btn_main a {
+			text-decoration: none;
+			color: black;
+			padding: 0 5px;
+		}
+		.btn_main:hover {
+			box-shadow: 0 0 4px #b6ac97;
+		}
+		.btn_main a:hover {
+			color: #392c1e;
+		}
+		.btn_main:active {
+			box-shadow: inset 0 0 2px 1px #392c1e;
+		}
+	</style>
+	<h1 class="h3 mb-3 font-weight-normal">Connectez vous</h1>
 	<form method="post">
 		{% if error %}
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -16,12 +67,13 @@
 				<a href="{{ path('app_logout') }}">Logout</a>
 			</div>
 		{% endif %}
-
-		<h1 class="h3 mb-3 font-weight-normal">Connectez vous</h1>
-		<label for="inputEmail">Email</label>
-		<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-		<label for="inputPassword">Password</label>
-		<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+		<fieldset>	
+			<label class= "one" for="inputEmail">Email :</label>
+			<input class= "two" type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+			<label class= "one" for="inputPassword">Password :</label>
+			<input class= "two" type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+		
+		</fieldset>
 
 		<input
 		type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -36,11 +88,11 @@
 						            </label>
 						        </div>
 						    #}
+		<a href="{{ path('app_forgot_password')}}">Mot de passe oublié</a>
 
-		<button class="btn btn-lg btn-primary" type="submit">
+		<button class="btn_main" type="submit">
 			Connection
 		</button>
-		<a href="{{ path('app_forgot_password')}}">Mot de passe oublié</a>
 	</form>
 {% endblock %}
 {% use "nav.html.twig" %}

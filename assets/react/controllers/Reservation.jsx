@@ -441,6 +441,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   overflow:hidden;
+  
   form fieldset {
     width: 100%;
     display: flex;

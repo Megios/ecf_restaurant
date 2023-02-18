@@ -1,0 +1,22 @@
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Lora';
+  src: url("../fonts/Lora-VariableFont_wght.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Hind';
+  src: url("../fonts/HindMadurai-Regular.ttf") format('truetype');
+}
+h1{
+  font-family: 'Montserrat';
+}
+h2,h3,h4,h5,li,a,span{
+  font-family: 'Lora';
+}
+
+textarea,input,p,button{
+  font-family: 'Hind';
+}

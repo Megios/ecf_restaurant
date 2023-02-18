@@ -4,11 +4,12 @@ namespace App\Controller\AddControllers;
 
 use App\Entity\User;
 
+use App\Service\EnvoyeurEmail;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
@@ -41,6 +42,9 @@ class AddUserReactController extends AbstractController
                 }
                 $em->persist($user);
                 $em->flush();
+                $message = "Bienvenu ".$user->getReservationName()." nous esperons vous apprecierez mangez chez nous !  ";
+                $sendmail = new EnvoyeurEmail();
+                $sendmail->sendMail($user->getEmail(),"Bienvenue chez Quai Antique", $message);
                 return new JsonResponse(['Message' => 'L\'inscription s\'est bien dérouler']);
             }
         } else {
