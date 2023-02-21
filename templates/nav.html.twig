@@ -158,7 +158,7 @@
 			</button>
 			{% if app.user %}
 				<a href="{{ path('app_logout') }}">
-					<Li>Se Deconnecté</Li>
+					<Li>Se Deconnecter</Li>
 				</a>
 			{% else %}
 				<a href="{{path('app_login')}}" {% if app.request.attributes.get('_route') == "app_login" %} class="active" {% endif %}>
